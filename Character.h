@@ -14,10 +14,11 @@ private:
 public:
 	Character(Vector2 position, Vector2 size,
 		float speed, int currentHealth, int maxHealth);
-	void DrawCharacter();
+	void DrawCharacterHitbox();
+	void DrawCharacterSprite(Texture2D characterSprite);
 	void MoveCharacter(Rectangle wall);
 	void TakeDamage(int damagePoints);
 	void SetNewMaxHealth(int newMaxHealth);
 	void SetCharacterSpeed(float newSpeed);
-	Rectangle GetCharacterRectangle();
+	Rectangle GetCharacterHitbox();
 };

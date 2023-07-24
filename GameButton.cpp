@@ -10,9 +10,9 @@ GameButton::GameButton(Vector2 position, Vector2 size,
 	_label = label;
 }
 
-void GameButton::DrawButton()
+void GameButton::DrawButtonHitbox()
 {
-	DrawRectangleRec( GetButtonRectangle(), _color );
+	DrawRectangleRec( GetButtonHitbox(), _color );
 	DrawText( _label.c_str(), static_cast<int>(_position.x + _size.x / 4.0f),
 		static_cast<int>(_position.y + _size.y / 4.0f), 20, BLACK);
 }
@@ -33,9 +33,8 @@ void GameButton::ChangeButtonLabel(const std::string& newLabel)
 	_label = newLabel;
 }
 
-Rectangle GameButton::GetButtonRectangle()
+Rectangle GameButton::GetButtonHitbox()
 {
-	Rectangle button = { static_cast<float>(_position.x), static_cast<float>(_position.y),
-		static_cast<float>(_size.x), static_cast<float>(_size.y) };
+	Rectangle button = { _position.x, _position.y, _size.x, _size.y };
 	return button;
 }

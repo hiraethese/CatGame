@@ -1,4 +1,5 @@
 #include "Character.h"
+#include "raymath.h"
 #include <cmath>
 
 Character::Character(Vector2 position, Vector2 size,
@@ -11,9 +12,15 @@ Character::Character(Vector2 position, Vector2 size,
 	_maxHealth = maxHealth;
 }
 
-void Character::DrawCharacter()
+void Character::DrawCharacterHitbox()
 {
-	DrawRectangleRec(GetCharacterRectangle(), WHITE);
+	DrawRectangleRec(GetCharacterHitbox(), WHITE);
+}
+
+void Character::DrawCharacterSprite(Texture2D characterSprite)
+{
+	DrawTexture(characterSprite, static_cast<int>(_position.x),
+		static_cast<int>(_position.y), WHITE);
 }
 
 void Character::MoveCharacter(Rectangle wall)
@@ -33,16 +40,12 @@ void Character::MoveCharacter(Rectangle wall)
 		movement.x += 1.0f;
 	}
 
-	if ((movement.x != 0.0f) && (movement.y != 0.0f))
-	{
-		movement.x *= 1 / sqrtf(2);
-		movement.y *= 1 / sqrtf(2);
-	}
+	movement = Vector2Normalize(movement);
 
 	_position.x += movement.x * _speed;
 	_position.y += movement.y * _speed;
 
-	if (CheckCollisionRecs(GetCharacterRectangle(), wall))
+	if (CheckCollisionRecs(GetCharacterHitbox(), wall))
 	{
 		if (movement.x > 0 && _position.x < wall.x)
 		{
@@ -77,7 +80,7 @@ void Character::SetCharacterSpeed(float newSpeed)
 	_speed = newSpeed;
 }
 
-Rectangle Character::GetCharacterRectangle()
+Rectangle Character::GetCharacterHitbox()
 {
 	Rectangle character = { _position.x, _position.y, _size.x, _size.y };
 	return character;

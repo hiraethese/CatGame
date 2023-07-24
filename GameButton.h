@@ -13,9 +13,9 @@ private:
 
 public:
 	GameButton(Vector2 position, Vector2 size, Color color, const std::string &label);
-	void DrawButton();
+	void DrawButtonHitbox();
 	void ChangeButtonLocation(Vector2 newPosition, Vector2 newSize);
 	void ChangeButtonColor(Color newColor);
 	void ChangeButtonLabel(const std::string& newLabel);
-	Rectangle GetButtonRectangle();
+	Rectangle GetButtonHitbox();
 };
