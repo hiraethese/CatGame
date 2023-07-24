@@ -20,4 +20,8 @@ public:
 	void DrawBulletHitbox();
 	void DrawBulletSprite(Texture2D bulletSprite);
 	void UpdateBullet(double currentTime);
+	Vector2 GetBulletCenter();
+	float GetBulletRadius();
+	bool BulletIsActive();
+	void DeleteBullet();
 };

@@ -47,3 +47,23 @@ void Bullet::UpdateBullet(double currentTime)
 		}
 	}
 }
+
+Vector2 Bullet::GetBulletCenter()
+{
+	return _position;
+}
+
+float Bullet::GetBulletRadius()
+{
+	return _radius;
+}
+
+bool Bullet::BulletIsActive()
+{
+	return _isActive;
+}
+
+void Bullet::DeleteBullet()
+{
+	_isActive = false;
+}

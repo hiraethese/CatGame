@@ -59,6 +59,38 @@ void DrawBullets()
     }
 }
 
+void CheckBulletMainButtonCollision()
+{
+    for (auto& bullet : bullets) {
+        if ( CheckCollisionCircleRec( bullet.GetBulletCenter(), bullet.GetBulletRadius(), mainButton->GetButtonHitbox() ) )
+        {
+            if ( bullet.BulletIsActive() )
+            {
+                clickScore++;
+            }
+
+            bullet.DeleteBullet();
+        }
+    }
+}
+
+void CheckShootingWithLMB()
+{
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+    {
+        Vector2 startPos = { mainCharacter->GetCharacterHitbox().x, mainCharacter->GetCharacterHitbox().y };
+        SpawnBullet(startPos, 5);
+    }
+}
+
+void CheckMouseMainButtonCollision()
+{
+    if (CheckCollisionPointRec(GetMousePosition(), mainButton->GetButtonHitbox()))
+    {
+        mainButton->ChangeButtonColor(GRAY);
+    }
+}
+
 void GameCycle()
 {
     while (!WindowShouldClose())
@@ -87,21 +119,11 @@ void GameCycle()
         mainCharacter->DrawCharacterSprite(mainCharacterSprite);
         mainCharacter->MoveCharacter(mainButton->GetButtonHitbox());
 
-        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
-        {
-            Vector2 startPos = { mainCharacter->GetCharacterHitbox().x, mainCharacter->GetCharacterHitbox().y };
-            SpawnBullet(startPos, 5);
-        }
+        CheckShootingWithLMB();
 
-        if (CheckCollisionPointRec(GetMousePosition(), mainButton->GetButtonHitbox()))
-        {
-            mainButton->ChangeButtonColor(GRAY);
+        CheckMouseMainButtonCollision();
 
-            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
-            {
-                clickScore++;
-            }
-        }
+        CheckBulletMainButtonCollision();
 
         EndDrawing();
     }
