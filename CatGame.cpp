@@ -3,7 +3,7 @@
 #include <vector>
 #include "raylib.h"
 #include "raymath.h"
-#include "GameButton.h"
+#include "Wall.h"
 #include "Character.h"
 #include "Bullet.h"
 
@@ -19,7 +19,7 @@ const int mainButtonHeight = 50;
 
 int clickScore = 0;
 
-GameButton* mainButton;
+Wall* mainButton;
 
 Character* mainCharacter;
 
@@ -62,7 +62,7 @@ void DrawBullets()
 void CheckBulletMainButtonCollision()
 {
     for (auto& bullet : bullets) {
-        if ( CheckCollisionCircleRec( bullet.GetBulletCenter(), bullet.GetBulletRadius(), mainButton->GetButtonHitbox() ) )
+        if ( CheckCollisionCircleRec( bullet.GetBulletCenter(), bullet.GetBulletRadius(), mainButton->GetWallHitbox() ) )
         {
             if ( bullet.BulletIsActive() )
             {
@@ -85,9 +85,9 @@ void CheckShootingWithLMB()
 
 void CheckMouseMainButtonCollision()
 {
-    if (CheckCollisionPointRec(GetMousePosition(), mainButton->GetButtonHitbox()))
+    if (CheckCollisionPointRec(GetMousePosition(), mainButton->GetWallHitbox()))
     {
-        mainButton->ChangeButtonColor(GRAY);
+        mainButton->ChangeWallColor(GRAY);
     }
 }
 
@@ -113,11 +113,11 @@ void GameCycle()
         string currentTime = "Time: " + to_string(gameTime);
         DrawText(currentTime.c_str(), 0, 20, 20, WHITE);
 
-        mainButton->DrawButtonHitbox();
-        mainButton->ChangeButtonColor(WHITE);
+        mainButton->DrawWallHitbox();
+        mainButton->ChangeWallColor(WHITE);
 
         mainCharacter->DrawCharacterSprite(mainCharacterSprite);
-        mainCharacter->MoveCharacter(mainButton->GetButtonHitbox());
+        mainCharacter->MoveCharacter(mainButton->GetWallHitbox());
 
         CheckShootingWithLMB();
 
@@ -135,7 +135,7 @@ int main(void)
 
     SetTargetFPS(60);
 
-    mainButton = new GameButton({ SCREEN_WIDTH / 2 - mainButtonWight / 2, SCREEN_HEIGHT / 2 - mainButtonHeight / 2 },
+    mainButton = new Wall({ SCREEN_WIDTH / 2 - mainButtonWight / 2, SCREEN_HEIGHT / 2 - mainButtonHeight / 2 },
         { mainButtonWight, mainButtonHeight }, WHITE, "Shoot Me");
 
     mainCharacter = new Character({ 400.0f, 400.0f }, { 20.0f, 20.0f }, 5.0f, 100, 100);

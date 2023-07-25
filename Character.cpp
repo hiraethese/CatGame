@@ -45,13 +45,21 @@ void Character::MoveCharacter(Rectangle wall)
 	_position.x += movement.x * _speed;
 	_position.y += movement.y * _speed;
 
+	if ( _position.x < 0 ) _position.x = 0;
+	if ( _position.x + _size.x > GetScreenWidth() )
+		 _position.x = GetScreenWidth() - _size.x;
+	if ( _position.y < 0 ) _position.y = 0;
+	if ( _position.y + _size.y > GetScreenHeight() )
+		 _position.y = GetScreenHeight() - _size.y;
+
 	if (CheckCollisionRecs(GetCharacterHitbox(), wall))
 	{
 		if (movement.x > 0 && _position.x < wall.x)
 		{
 			_position.x = wall.x - _size.x;
 		}
-		else if (movement.x < 0 && _position.x + _size.x > wall.x + wall.width) {
+		else if (movement.x < 0 && _position.x + _size.x > wall.x + wall.width)
+		{
 			_position.x = wall.x + wall.width;
 		}
 
@@ -59,7 +67,8 @@ void Character::MoveCharacter(Rectangle wall)
 		{
 			_position.y = wall.y - _size.y;
 		}
-		else if (movement.y < 0 && _position.y + _size.y > wall.y + wall.height) {
+		else if (movement.y < 0 && _position.y + _size.y > wall.y + wall.height)
+		{
 			_position.y = wall.y + wall.height;
 		}
 	}
