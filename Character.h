@@ -7,9 +7,8 @@ class Character
 private:
 	Vector2 _position;
 	Vector2 _size;
-	float _speed;
-	int _currentHealth;
-	int _maxHealth;
+	bool _visibility;
+	bool _isDead;
 
 public:
 	Character(Vector2 position, Vector2 size,
@@ -18,7 +17,11 @@ public:
 	void DrawCharacterSprite(Texture2D characterSprite);
 	void MoveCharacter(Rectangle wall);
 	void TakeDamage(int damagePoints);
-	void SetNewMaxHealth(int newMaxHealth);
+	void HealDamage(int healPoints);
 	void SetCharacterSpeed(float newSpeed);
 	Rectangle GetCharacterHitbox();
+
+	int _maxHealth;
+	int _currentHealth;
+	float _speed;
 };

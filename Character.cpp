@@ -10,6 +10,8 @@ Character::Character(Vector2 position, Vector2 size,
 	_speed = speed;
 	_currentHealth = currentHealth;
 	_maxHealth = maxHealth;
+	_visibility = true;
+	_isDead = false;
 }
 
 void Character::DrawCharacterHitbox()
@@ -77,11 +79,22 @@ void Character::MoveCharacter(Rectangle wall)
 void Character::TakeDamage(int damagePoints)
 {
 	_currentHealth -= damagePoints;
+
+	if (_currentHealth <= 0)
+	{
+		_currentHealth = 0;
+		_isDead = true;
+	}
 }
 
-void Character::SetNewMaxHealth(int newMaxHealth)
+void Character::HealDamage(int healPoints)
 {
-	_maxHealth = newMaxHealth;
+	_currentHealth += healPoints;
+
+	if (_currentHealth > _maxHealth)
+	{
+		_currentHealth = _maxHealth;
+	}
 }
 
 void Character::SetCharacterSpeed(float newSpeed)

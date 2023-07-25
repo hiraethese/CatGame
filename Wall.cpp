@@ -1,13 +1,17 @@
 #include "Wall.h"
 #include "raylib.h"
 
-Wall::Wall(Vector2 position, Vector2 size,
-	Color color, const std::string& label)
+Wall::Wall(Vector2 position, Vector2 size, Color color,
+	const std::string& label, int currentHealth, int maxHealth)
 {
 	_position = position;
 	_size = size;
 	_color = color;
 	_label = label;
+	_currentHealth = currentHealth;
+	_maxHealth = maxHealth;
+	_visibility = true;
+	_isDead = false;
 }
 
 void Wall::DrawWallHitbox()

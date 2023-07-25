@@ -136,7 +136,7 @@ int main(void)
     SetTargetFPS(60);
 
     mainButton = new Wall({ SCREEN_WIDTH / 2 - mainButtonWight / 2, SCREEN_HEIGHT / 2 - mainButtonHeight / 2 },
-        { mainButtonWight, mainButtonHeight }, WHITE, "Shoot Me");
+        { mainButtonWight, mainButtonHeight }, WHITE, "Shoot Me", 1000, 1000);
 
     mainCharacter = new Character({ 400.0f, 400.0f }, { 20.0f, 20.0f }, 5.0f, 100, 100);
 
