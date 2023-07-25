@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include "raylib.h"
+#include "Bar.h"
 
 class Wall
 {
@@ -12,15 +13,21 @@ private:
 	std::string _label;
 	int _currentHealth;
 	int _maxHealth;
-	bool _visibility;
-	bool _isDead;
+	bool _isVisible;
+	bool _isInvunerable;
+	bool _isDestroyed;
 
 public:
 	Wall(Vector2 position, Vector2 size, Color color,
 		const std::string &label, int currentHealth, int maxHealth);
-	void DrawWallHitbox();
-	void ChangeWallLocation(Vector2 newPosition, Vector2 newSize);
-	void ChangeWallColor(Color newColor);
-	void ChangeWallLabel(const std::string& newLabel);
-	Rectangle GetWallHitbox();
+	void DrawHitbox();
+	void ChangeLocation(Vector2 newPosition, Vector2 newSize);
+	void ChangeColor(Color newColor);
+	void ChangeLabel(const std::string& newLabel);
+	void SetInvulnerability(bool isInvunerable);
+	void TakeDamage(int damagePoints, Bar* healthBar);
+	void HealDamage(int healPoints, Bar* healthBar);
+	Rectangle GetHitbox();
+	int GetCurrentHealth();
+	int GetMaxHealth();
 };

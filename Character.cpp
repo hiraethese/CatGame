@@ -10,22 +10,23 @@ Character::Character(Vector2 position, Vector2 size,
 	_speed = speed;
 	_currentHealth = currentHealth;
 	_maxHealth = maxHealth;
-	_visibility = true;
+	_isVisible = true;
+	_isInvunerable = false;
 	_isDead = false;
 }
 
-void Character::DrawCharacterHitbox()
+void Character::DrawHitbox()
 {
-	DrawRectangleRec(GetCharacterHitbox(), WHITE);
+	DrawRectangleRec(GetHitbox(), WHITE);
 }
 
-void Character::DrawCharacterSprite(Texture2D characterSprite)
+void Character::DrawSprite(Texture2D characterSprite)
 {
 	DrawTexture(characterSprite, static_cast<int>(_position.x),
 		static_cast<int>(_position.y), WHITE);
 }
 
-void Character::MoveCharacter(Rectangle wall)
+void Character::Move(Rectangle recCollision)
 {
 	Vector2 movement = { 0.0f, 0.0f };
 
@@ -44,8 +45,8 @@ void Character::MoveCharacter(Rectangle wall)
 
 	movement = Vector2Normalize(movement);
 
-	_position.x += movement.x * _speed;
-	_position.y += movement.y * _speed;
+	_position.x += movement.x * _speed * GetFrameTime();
+	_position.y += movement.y * _speed * GetFrameTime();
 
 	if ( _position.x < 0 ) _position.x = 0;
 	if ( _position.x + _size.x > GetScreenWidth() )
@@ -54,56 +55,73 @@ void Character::MoveCharacter(Rectangle wall)
 	if ( _position.y + _size.y > GetScreenHeight() )
 		 _position.y = GetScreenHeight() - _size.y;
 
-	if (CheckCollisionRecs(GetCharacterHitbox(), wall))
+	if (CheckCollisionRecs(GetHitbox(), recCollision))
 	{
-		if (movement.x > 0 && _position.x < wall.x)
+		if (movement.x > 0 && _position.x < recCollision.x)
 		{
-			_position.x = wall.x - _size.x;
+			_position.x = recCollision.x - _size.x;
 		}
-		else if (movement.x < 0 && _position.x + _size.x > wall.x + wall.width)
+		else if (movement.x < 0 && _position.x + _size.x > recCollision.x + recCollision.width)
 		{
-			_position.x = wall.x + wall.width;
+			_position.x = recCollision.x + recCollision.width;
 		}
 
-		if (movement.y > 0 && _position.y < wall.y)
+		if (movement.y > 0 && _position.y < recCollision.y)
 		{
-			_position.y = wall.y - _size.y;
+			_position.y = recCollision.y - _size.y;
 		}
-		else if (movement.y < 0 && _position.y + _size.y > wall.y + wall.height)
+		else if (movement.y < 0 && _position.y + _size.y > recCollision.y + recCollision.height)
 		{
-			_position.y = wall.y + wall.height;
+			_position.y = recCollision.y + recCollision.height;
 		}
 	}
 }
 
-void Character::TakeDamage(int damagePoints)
+void Character::SetSpeed(float newSpeed)
 {
-	_currentHealth -= damagePoints;
+	_speed = newSpeed;
+}
 
-	if (_currentHealth <= 0)
+void Character::SetInvulnerability(bool isInvunerable)
+{
+	_isInvunerable = isInvunerable;
+}
+
+void Character::TakeDamage(int damagePoints, Bar* healthBar)
+{
+	if (!_isInvunerable)
 	{
-		_currentHealth = 0;
-		_isDead = true;
+		_currentHealth -= damagePoints;
+
+		if (_currentHealth <= 0)
+		{
+			_currentHealth = 0;
+			_isDead = true;
+		}
 	}
 }
 
-void Character::HealDamage(int healPoints)
+void Character::HealDamage(int healPoints, Bar* healthBar)
 {
 	_currentHealth += healPoints;
 
-	if (_currentHealth > _maxHealth)
+	if (_currentHealth >= _maxHealth)
 	{
 		_currentHealth = _maxHealth;
 	}
 }
 
-void Character::SetCharacterSpeed(float newSpeed)
+Rectangle Character::GetHitbox()
 {
-	_speed = newSpeed;
+	return { _position.x, _position.y, _size.x, _size.y };
 }
 
-Rectangle Character::GetCharacterHitbox()
+int Character::GetCurrentHealth()
 {
-	Rectangle character = { _position.x, _position.y, _size.x, _size.y };
-	return character;
+	return _currentHealth;
+}
+
+int Character::GetMaxHealth()
+{
+	return _maxHealth;
 }

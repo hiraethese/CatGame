@@ -17,11 +17,11 @@ private:
 public:
 	Bullet(Vector2 position, Vector2 velocity, Color color,
 		float radius, double lifetime, int damage);
-	void DrawBulletHitbox();
-	void DrawBulletSprite(Texture2D bulletSprite);
-	void UpdateBullet(double currentTime);
-	Vector2 GetBulletCenter();
-	float GetBulletRadius();
-	bool BulletIsActive();
-	void DeleteBullet();
+	void DrawHitbox();
+	void DrawSprite(Texture2D bulletSprite);
+	void Update(double currentTime);
+	Vector2 GetCenter();
+	float GetRadius();
+	bool IsActive();
+	void Delete();
 };

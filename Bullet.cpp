@@ -13,14 +13,14 @@ Bullet::Bullet(Vector2 position, Vector2 velocity, Color color,
 	_isActive = true;
 }
 
-void Bullet::DrawBulletHitbox()
+void Bullet::DrawHitbox()
 {
 	if (_isActive) {
 		DrawCircleV(_position, 5, _color);
 	}
 }
 
-void Bullet::DrawBulletSprite(Texture2D bulletSprite)
+void Bullet::DrawSprite(Texture2D bulletSprite)
 {
 	if (_isActive) {
 		DrawTexture(bulletSprite, static_cast<int>(_position.x),
@@ -28,12 +28,12 @@ void Bullet::DrawBulletSprite(Texture2D bulletSprite)
 	}
 }
 
-void Bullet::UpdateBullet(double currentTime)
+void Bullet::Update(double currentTime)
 {
 	if (_isActive)
 	{
-		_position.x += _velocity.x;
-		_position.y += _velocity.y;
+		_position.x += _velocity.x * GetFrameTime();
+		_position.y += _velocity.y * GetFrameTime();
 
 		if (_position.x > GetScreenWidth() || _position.x < 0 ||
 			_position.y > GetScreenHeight() || _position.y < 0)
@@ -48,22 +48,22 @@ void Bullet::UpdateBullet(double currentTime)
 	}
 }
 
-Vector2 Bullet::GetBulletCenter()
+Vector2 Bullet::GetCenter()
 {
 	return _position;
 }
 
-float Bullet::GetBulletRadius()
+float Bullet::GetRadius()
 {
 	return _radius;
 }
 
-bool Bullet::BulletIsActive()
+bool Bullet::IsActive()
 {
 	return _isActive;
 }
 
-void Bullet::DeleteBullet()
+void Bullet::Delete()
 {
 	_isActive = false;
 }

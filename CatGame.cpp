@@ -6,6 +6,7 @@
 #include "Wall.h"
 #include "Character.h"
 #include "Bullet.h"
+#include "Bar.h"
 
 #define SCREEN_WIDTH 1600
 #define SCREEN_HEIGHT 900
@@ -19,16 +20,17 @@ const int mainButtonHeight = 50;
 
 int clickScore = 0;
 
-Wall* mainButton;
-
 Character* mainCharacter;
+Bar* mainCharacterBar;
+Wall* mainButton;
+Bar* mainButtonBar;
 
 Texture2D mainCharacterSprite;
 Texture2D mainBulletSprite;
 
 int gameTime;
 
-std::vector<Bullet> bullets;
+std::vector<Bullet> characterBullets;
 
 void OpenWindow()
 {
@@ -42,34 +44,72 @@ void SpawnBullet(Vector2 startPos, float speed)
     direction = Vector2Normalize(direction);
     Vector2 velocity = { direction.x * speed, direction.y * speed };
 
-    bullets.emplace_back(startPos, velocity, WHITE, 5.0f, 3.0f, 1);
+    characterBullets.emplace_back(startPos, velocity, WHITE, 5.0f, 3.0f, 1);
 }
 
 void UpdateBullets()
 {
-    for (auto& bullet : bullets) {
-        bullet.UpdateBullet( GetTime() );
+    for (auto& bullet : characterBullets) {
+        bullet.Update( GetTime() );
     }
 }
 
-void DrawBullets()
+void DrawCharacterBullets()
 {
-    for (auto& bullet : bullets) {
-        bullet.DrawBulletSprite(mainBulletSprite);
+    for (auto& bullet : characterBullets) {
+        bullet.DrawSprite(mainBulletSprite);
     }
+}
+
+void DrawTextStrings()
+{
+    string clickScoreStr = "Gatocoins: " + to_string(clickScore);
+    DrawText(clickScoreStr.c_str(), 0, SCREEN_HEIGHT - 20, 20, WHITE);
+
+    string currentFPS = "FPS: " + to_string(GetFPS());
+    DrawText(currentFPS.c_str(), 0, 0, 20, WHITE);
+
+    string currentTime = "Time: " + to_string(gameTime);
+    DrawText(currentTime.c_str(), 0, 20, 20, WHITE);
+}
+
+void DrawCharacterElements()
+{
+    mainCharacter->DrawSprite(mainCharacterSprite);
+    mainCharacterBar->DrawBase();
+
+    mainCharacter->Move(mainButton->GetHitbox());
+
+    Rectangle characterHitbox = mainCharacter->GetHitbox();
+    Vector2 barPosition = { characterHitbox.x, characterHitbox.y - 10 };
+
+    mainCharacterBar->SetPosition(barPosition);
+}
+
+void DrawMainButtonElements()
+{
+    mainButton->DrawHitbox();
+    mainButtonBar->DrawBase();
+    mainButton->ChangeColor(WHITE);
+
+    Rectangle mainButtonHitbox = mainButton->GetHitbox();
+    Vector2 barPosition = { mainButtonHitbox.x, mainButtonHitbox.y - 20 };
+
+    mainButtonBar->SetPosition(barPosition);
 }
 
 void CheckBulletMainButtonCollision()
 {
-    for (auto& bullet : bullets) {
-        if ( CheckCollisionCircleRec( bullet.GetBulletCenter(), bullet.GetBulletRadius(), mainButton->GetWallHitbox() ) )
+    for (auto& bullet : characterBullets) {
+        if ( CheckCollisionCircleRec( bullet.GetCenter(), bullet.GetRadius(), mainButton->GetHitbox() ) )
         {
-            if ( bullet.BulletIsActive() )
+            if ( bullet.IsActive() )
             {
+                mainButton->TakeDamage(1, mainButtonBar);
                 clickScore++;
             }
 
-            bullet.DeleteBullet();
+            bullet.Delete();
         }
     }
 }
@@ -78,16 +118,16 @@ void CheckShootingWithLMB()
 {
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
     {
-        Vector2 startPos = { mainCharacter->GetCharacterHitbox().x, mainCharacter->GetCharacterHitbox().y };
-        SpawnBullet(startPos, 5);
+        Vector2 startPos = { mainCharacter->GetHitbox().x, mainCharacter->GetHitbox().y };
+        SpawnBullet(startPos, 500);
     }
 }
 
 void CheckMouseMainButtonCollision()
 {
-    if (CheckCollisionPointRec(GetMousePosition(), mainButton->GetWallHitbox()))
+    if (CheckCollisionPointRec(GetMousePosition(), mainButton->GetHitbox()))
     {
-        mainButton->ChangeWallColor(GRAY);
+        mainButton->ChangeColor(GRAY);
     }
 }
 
@@ -102,22 +142,13 @@ void GameCycle()
         BeginDrawing();
         ClearBackground(BLACK);
 
-        DrawBullets();
+        DrawCharacterBullets();
 
-        string clickScoreStr = "Gatocoins: " + to_string(clickScore);
-        DrawText(clickScoreStr.c_str(), 0, SCREEN_HEIGHT - 20, 20, WHITE);
+        DrawMainButtonElements();
 
-        string currentFPS = "FPS: " + to_string( GetFPS() );
-        DrawText(currentFPS.c_str(), 0, 0, 20, WHITE);
+        DrawCharacterElements();
 
-        string currentTime = "Time: " + to_string(gameTime);
-        DrawText(currentTime.c_str(), 0, 20, 20, WHITE);
-
-        mainButton->DrawWallHitbox();
-        mainButton->ChangeWallColor(WHITE);
-
-        mainCharacter->DrawCharacterSprite(mainCharacterSprite);
-        mainCharacter->MoveCharacter(mainButton->GetWallHitbox());
+        DrawTextStrings();
 
         CheckShootingWithLMB();
 
@@ -135,10 +166,13 @@ int main(void)
 
     SetTargetFPS(60);
 
-    mainButton = new Wall({ SCREEN_WIDTH / 2 - mainButtonWight / 2, SCREEN_HEIGHT / 2 - mainButtonHeight / 2 },
-        { mainButtonWight, mainButtonHeight }, WHITE, "Shoot Me", 1000, 1000);
+    mainButton = new Wall( { SCREEN_WIDTH / 2 - mainButtonWight / 2, SCREEN_HEIGHT / 2 - mainButtonHeight / 2 },
+        { mainButtonWight, mainButtonHeight }, WHITE, "Shoot Me", 100, 100 );
+    mainButtonBar = new Bar( { SCREEN_WIDTH / 2 - mainButtonWight / 2, SCREEN_HEIGHT / 2 - mainButtonHeight / 2 - 20 },
+        { mainButtonWight, 5.0f }, GREEN, DARKGRAY, 100, 100);
 
-    mainCharacter = new Character({ 400.0f, 400.0f }, { 20.0f, 20.0f }, 5.0f, 100, 100);
+    mainCharacter = new Character( { 400.0f, 400.0f }, { 20.0f, 20.0f }, 250.0f, 100, 100 );
+    mainCharacterBar = new Bar( { 400.0f, 390.0f }, { 40.0f, 5.0f }, GREEN, GRAY, 100, 100 );
 
     mainCharacterSprite = LoadTexture("textures/papa_cat.png");
     mainBulletSprite = LoadTexture("textures/kitigr.png");
