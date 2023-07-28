@@ -5,7 +5,6 @@
 class Bar
 {
 private:
-	Vector2 _position;
 	Vector2 _size;
 	Color _filledPartColor;
 	Color _emptyPartColor;
@@ -14,10 +13,9 @@ private:
 	bool _isVisible;
 
 public:
-	Bar(Vector2 position, Vector2 size, Color filledPartColor,
+	Bar(Vector2 size, Color filledPartColor,
 		Color emptyPartColor, int maxPoints, int currentPoints);
-	void DrawBase();
-	void SetPosition(Vector2 newPosition);
+	void DrawBase(Vector2 position);
 	void SetPoints(int newMaxPoints, int newCurrentPoints);
 };
 

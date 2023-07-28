@@ -1,11 +1,10 @@
 #include "Bullet.h"
 
-Bullet::Bullet(Vector2 position, Vector2 velocity, Color color,
+Bullet::Bullet(Vector2 position, Vector2 velocity,
 	float radius, double lifetime, int damage)
 {
 	_position = position;
 	_velocity = velocity;
-	_color = color;
 	_radius = radius;
 	_lifetime = lifetime;
 	_damage = damage;
@@ -16,7 +15,7 @@ Bullet::Bullet(Vector2 position, Vector2 velocity, Color color,
 void Bullet::DrawHitbox()
 {
 	if (_isActive) {
-		DrawCircleV(_position, 5, _color);
+		DrawCircleV(_position, 5, RED);
 	}
 }
 
@@ -28,7 +27,7 @@ void Bullet::DrawSprite(Texture2D bulletSprite)
 	}
 }
 
-void Bullet::Update(double currentTime)
+void Bullet::UpdateLocation(double currentTime)
 {
 	if (_isActive)
 	{

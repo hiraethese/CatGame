@@ -17,9 +17,12 @@ Wall::Wall(Vector2 position, Vector2 size, Color color,
 
 void Wall::DrawHitbox()
 {
-	DrawRectangleRec( GetHitbox(), _color );
-	DrawText( _label.c_str(), static_cast<int>(_position.x + _size.x / 4.0f),
-		static_cast<int>(_position.y + _size.y / 4.0f), 20, BLACK);
+	if (!_isDestroyed)
+	{
+		DrawRectangleRec(GetHitbox(), _color);
+		DrawText(_label.c_str(), static_cast<int>(_position.x + _size.x / 4.0f),
+			static_cast<int>(_position.y + _size.y / 4.0f), 20, BLACK);
+	}
 }
 
 void Wall::ChangeLocation(Vector2 position, Vector2 size)
@@ -43,7 +46,7 @@ void Wall::SetInvulnerability(bool isInvunerable)
 	_isInvunerable = isInvunerable;
 }
 
-void Wall::TakeDamage(int damagePoints, Bar* healthBar)
+void Wall::TakeDamage(int damagePoints)
 {
 	if (!_isInvunerable)
 	{
@@ -55,11 +58,11 @@ void Wall::TakeDamage(int damagePoints, Bar* healthBar)
 			_isDestroyed = true;
 		}
 
-		healthBar->SetPoints(_maxHealth, _currentHealth);
+		// healthBar->SetPoints(_maxHealth, _currentHealth);
 	}
 }
 
-void Wall::HealDamage(int healPoints, Bar* healthBar)
+void Wall::HealDamage(int healPoints)
 {
 	_currentHealth += healPoints;
 

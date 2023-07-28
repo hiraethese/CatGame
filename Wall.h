@@ -25,8 +25,8 @@ public:
 	void ChangeColor(Color newColor);
 	void ChangeLabel(const std::string& newLabel);
 	void SetInvulnerability(bool isInvunerable);
-	void TakeDamage(int damagePoints, Bar* healthBar);
-	void HealDamage(int healPoints, Bar* healthBar);
+	void TakeDamage(int damagePoints);
+	void HealDamage(int healPoints);
 	Rectangle GetHitbox();
 	int GetCurrentHealth();
 	int GetMaxHealth();

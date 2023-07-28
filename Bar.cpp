@@ -1,9 +1,8 @@
 #include "Bar.h"
 
-Bar::Bar(Vector2 position, Vector2 size, Color filledPartColor,
+Bar::Bar(Vector2 size, Color filledPartColor,
 	Color emptyPartColor, int maxPoints, int currentPoints)
 {
-	_position = position;
 	_size = size;
 	_filledPartColor = filledPartColor;
 	_emptyPartColor = emptyPartColor;
@@ -12,24 +11,19 @@ Bar::Bar(Vector2 position, Vector2 size, Color filledPartColor,
 	_isVisible = true;
 }
 
-void Bar::DrawBase()
+void Bar::DrawBase(Vector2 position)
 {	
 	if (_isVisible)
 	{
 		float currentPointsPercentage = static_cast<float>(_currentPoints) / static_cast<float>(_maxPoints);
 		float currentPointsWidth = _size.x * currentPointsPercentage;
 
-		Rectangle emptyBar = { _position.x, _position.y, _size.x, _size.y };
-		Rectangle filledBar = { _position.x, _position.y, currentPointsWidth, _size.y };
+		Rectangle emptyBar = { position.x, position.y, _size.x, _size.y };
+		Rectangle filledBar = { position.x, position.y, currentPointsWidth, _size.y };
 
 		DrawRectangleRec( emptyBar, _emptyPartColor );
 		DrawRectangleRec( filledBar, _filledPartColor );
 	}
-}
-
-void Bar::SetPosition(Vector2 newPosition)
-{
-	_position = newPosition;
 }
 
 void Bar::SetPoints(int newMaxPoints, int newCurrentPoints)
