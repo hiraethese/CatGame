@@ -25,3 +25,5 @@ Vector2 MyTransform::GetSize()
 {
 	return _size;
 }
+
+

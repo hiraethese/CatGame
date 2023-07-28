@@ -63,7 +63,7 @@ Vector2 GenerateRandomLocationOutsideScreen()
 void SpawnSimpleEnemie(Vector2 startPos)
 {
     Vector2 size = { 100.0f, 100.0f };
-    enemies.emplace_back( startPos, size, 200.0f, 100, 100 );
+    enemies.emplace_back( startPos, size, 200.0f, 100, 100, enemySprite );
 
     // mainEnemyBar = new Bar(startPos, { 40.0f, 5.0f }, GREEN, DARKGRAY, 100, 100 );
 }
@@ -71,9 +71,8 @@ void SpawnSimpleEnemie(Vector2 startPos)
 void UpdateEnemiesLocation(Vector2 target)
 {
     for (auto& enemie : enemies) {
-        enemie.UpdateLocation(target);
-
-        Vector2 enemyPosition = enemie.GetPosition();
+        enemie.GetMovement()->UpdateLocation(target);
+        /*Vector2 enemyPosition = enemie.GetTransform()->GetPosition();*/
         // mainEnemyBar->SetPosition( { enemyPosition.x, enemyPosition.y - 50 } );
     }
 }
@@ -81,7 +80,7 @@ void UpdateEnemiesLocation(Vector2 target)
 void DrawEnemies()
 {
     for (auto& enemie : enemies) {
-        enemie.DrawSprite(enemySprite);
+        enemie.GetDrawer()->Draw();
         // enemie.DrawHitbox(WHITE); // hitbox
         // mainEnemyBar->DrawBase();
     }
@@ -110,19 +109,6 @@ void DrawCharacterBullets()
         bullet.DrawSprite(mainBulletSprite);
         // bullet.DrawHitbox(); // hitbox
     }
-}
-
-void UpdateMainCharacterLocation()
-{
-    mainCharacter->Move( mainButton->GetHitbox() );
-    // mainCharacterBar->SetPosition( mainCharacter->GetPosition() );
-}
-
-void DrawMainCharacter()
-{
-    mainCharacter->DrawSprite(mainCharacterSprite);
-    // mainCharacter->DrawHitbox(RED); // hitbox
-    // mainCharacterBar->DrawBase();
 }
 
 void UpdateMainButtonLocation()
@@ -159,11 +145,11 @@ void CheckBulletEnemyCollision()
     {
         for (auto& enemy : enemies)
         {
-            if ( CheckCollisionCircleRec( bullet.GetCenter(), bullet.GetRadius(), enemy.GetHitbox() ) )
+            if ( CheckCollisionCircleRec( bullet.GetCenter(), bullet.GetRadius(), enemy.GetTransform()->GetHitbox() ) )
             {
                 if ( bullet.IsActive() )
                 {
-                    enemy.TakeDamage(1);
+                    enemy.GetHealth()->TakeDamage(1);
                     clickScore++;
                 }
 
@@ -193,7 +179,7 @@ void CheckShootingWithLMB()
 {
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
     {
-        Vector2 startPos = { mainCharacter->GetHitbox().x, mainCharacter->GetHitbox().y };
+        Vector2 startPos = mainCharacter->GetTransform()->GetPosition();
         SpawnBulletInMouseDirection(startPos, 500);
     }
 }
@@ -208,12 +194,10 @@ void GameCycle()
 
         UpdateMainButtonLocation();
 
-        UpdateEnemiesLocation( mainCharacter->GetPosition() );
-
-        UpdateMainCharacterLocation();
+        UpdateEnemiesLocation( mainCharacter->GetTransform()->GetPosition() );
 
         BeginDrawing(); // DRAW SCREEN
-        ClearBackground(WHITE);
+        ClearBackground(BLACK);
 
         DrawCharacterBullets();
 
@@ -221,7 +205,7 @@ void GameCycle()
 
         DrawEnemies();
 
-        DrawMainCharacter();
+        mainCharacter->Update( mainButton->GetHitbox() );
 
         DrawTextStrings();
 
@@ -251,12 +235,13 @@ int main(void)
     /*mainButtonBar = new Bar( { SCREEN_WIDTH / 2 - mainButtonWight / 2, SCREEN_HEIGHT / 2 - mainButtonHeight / 2 - 20 },
         { mainButtonWight, 5.0f }, GREEN, DARKGRAY, 100, 100);*/
 
-    mainCharacter = new Character( { 400.0f, 400.0f }, { 20.0f, 20.0f }, 250.0f, 100, 100 );
     /*mainCharacterBar = new Bar( { 400.0f, 350.0f }, { 40.0f, 5.0f }, GREEN, GRAY, 100, 100 );*/
 
     mainCharacterSprite = LoadTexture("textures/Sprite-0015main.png");
     mainBulletSprite = LoadTexture("textures/Sprite-0015main.png");
     enemySprite = LoadTexture("textures/Sprite-00007.png");
+
+    mainCharacter = new Character( { 400.0f, 400.0f }, { 20.0f, 20.0f }, 250.0f, 100, 100, mainCharacterSprite);
 
     SpawnSimpleEnemie( GenerateRandomLocationOutsideScreen() );
 

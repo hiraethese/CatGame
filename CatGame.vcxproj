@@ -134,6 +134,7 @@
     <ClCompile Include="Health.cpp" />
     <ClCompile Include="Movement.cpp" />
     <ClCompile Include="MyTransform.cpp" />
+    <ClCompile Include="SpriteDrawer.cpp" />
     <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -146,6 +147,7 @@
     <ClInclude Include="Health.h" />
     <ClInclude Include="Movement.h" />
     <ClInclude Include="MyTransform.h" />
+    <ClInclude Include="SpriteDrawer.h" />
     <ClInclude Include="Wall.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>

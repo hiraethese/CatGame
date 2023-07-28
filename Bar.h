@@ -18,4 +18,3 @@ public:
 	void DrawBase(Vector2 position);
 	void SetPoints(int newMaxPoints, int newCurrentPoints);
 };
-
