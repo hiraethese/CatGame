@@ -6,7 +6,7 @@
 #include "Wall.h"
 #include "Character.h"
 #include "Bullet.h"
-#include "Bar.h"
+#include "BarDisplay.h"
 
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720

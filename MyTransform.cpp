@@ -1,6 +1,7 @@
 #include "MyTransform.h"
 
-MyTransform::MyTransform(Vector2 position, Vector2 size)
+MyTransform::MyTransform(Vector2 position,
+	Vector2 size)
 {
 	_position = position;
 	_size = size;

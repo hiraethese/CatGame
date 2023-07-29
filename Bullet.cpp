@@ -1,7 +1,10 @@
 #include "Bullet.h"
 
-Bullet::Bullet(Vector2 position, Vector2 velocity,
-	float radius, double lifetime, int damage)
+Bullet::Bullet(Vector2 position,
+	Vector2 velocity,
+	float radius,
+	double lifetime,
+	int damage)
 {
 	_position = position;
 	_velocity = velocity;

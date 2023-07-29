@@ -1,8 +1,12 @@
 #include "Wall.h"
 #include "raylib.h"
 
-Wall::Wall(Vector2 position, Vector2 size, Color color,
-	const std::string& label, int currentHealth, int maxHealth)
+Wall::Wall(Vector2 position,
+	Vector2 size,
+	Color color,
+	const std::string& label,
+	int currentHealth,
+	int maxHealth)
 {
 	_position = position;
 	_size = size;

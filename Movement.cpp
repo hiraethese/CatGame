@@ -2,7 +2,8 @@
 #include "MyTransform.h"
 #include "raymath.h"
 
-Movement::Movement(float speed, MyTransform* transform)
+Movement::Movement(float speed,
+	MyTransform* transform)
 {
 	_speed = speed;
 	_transform = transform;

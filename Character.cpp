@@ -1,5 +1,4 @@
 #include "Character.h"
-#include "Bar.h"
 #include "raymath.h"
 #include <cmath>
 
@@ -11,10 +10,11 @@ Character::Character(Vector2 position,
 	Texture2D texture)
 {
 	_transform = new MyTransform(position, size);
-	_movement = new Movement(speed, _transform);
 	_drawer = new SpriteDrawer(true, texture, _transform);
+	_movement = new Movement(speed, _transform);
 	_health = new Health(currentHealth, maxHealth, false, false);
-	_healthBar = new Bar({ 40.0f, 5.0f }, GREEN, GRAY, 100, 100);
+	_healthBar = new BarDisplay(_transform->GetPosition(), _transform->GetSize(),
+		GREEN, GRAY, _health->GetCurrentHealth(), _health->GetMaxHealth());
 }
 
 void Character::Update(Rectangle collision)

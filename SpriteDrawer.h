@@ -11,7 +11,10 @@ private:
 	MyTransform* _transform;
 
 public:
-	SpriteDrawer(bool isVisibile, Texture2D texture, MyTransform* transform);
+	SpriteDrawer(bool isVisibile,
+		Texture2D texture,
+		MyTransform* transform);
+
 	void DrawHitbox(Color color);
 	void Draw();
 };

@@ -9,7 +9,9 @@ private:
 	Vector2 _size;
 
 public:
-	MyTransform(Vector2 position, Vector2 size);
+	MyTransform(Vector2 position,
+		Vector2 size);
+
 	void SetPosition(Vector2 newPosition);
 	Rectangle GetHitbox();
 	Vector2 GetPosition();

@@ -1,6 +1,9 @@
 #include "Health.h"
 
-Health::Health(int currentHealth, int maxHealth, bool isInvunerable, bool isDead)
+Health::Health(int currentHealth,
+	int maxHealth,
+	bool isInvunerable,
+	bool isDead)
 {
 	_currentHealth = currentHealth;
 	_maxHealth = maxHealth;

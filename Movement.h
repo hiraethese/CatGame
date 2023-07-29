@@ -9,7 +9,9 @@ private:
 	MyTransform* _transform;
 
 public:
-	Movement(float speed, MyTransform* transform);
+	Movement(float speed,
+		MyTransform* transform);
+
 	void UpdateLocation(Vector2 target);
 	void Move(Rectangle recCollision);
 	void SetSpeed(float newSpeed);

@@ -2,10 +2,10 @@
 
 #include <iostream>
 #include "raylib.h"
-#include "SpriteDrawer.h"
 #include "Movement.h"
+#include "SpriteDrawer.h"
 #include "Health.h"
-#include "Bar.h"
+#include "BarDisplay.h"
 
 class Character
 {
@@ -14,7 +14,7 @@ private:
 	SpriteDrawer* _drawer;
 	Movement* _movement;
 	Health* _health;
-	Bar* _healthBar;
+	BarDisplay* _healthBar;
 
 public:
 	Character(Vector2 position,

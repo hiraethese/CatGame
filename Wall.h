@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include "raylib.h"
-#include "Bar.h"
+#include "BarDisplay.h"
 
 class Wall
 {
@@ -18,8 +18,13 @@ private:
 	bool _isDestroyed;
 
 public:
-	Wall(Vector2 position, Vector2 size, Color color,
-		const std::string &label, int currentHealth, int maxHealth);
+	Wall(Vector2 position,
+		Vector2 size,
+		Color color,
+		const std::string &label,
+		int currentHealth,
+		int maxHealth);
+
 	void DrawHitbox();
 	void ChangeLocation(Vector2 newPosition, Vector2 newSize);
 	void ChangeColor(Color newColor);

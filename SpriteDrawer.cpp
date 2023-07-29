@@ -1,6 +1,8 @@
 #include "SpriteDrawer.h"
 
-SpriteDrawer::SpriteDrawer(bool isVisibile, Texture2D texture, MyTransform* transform)
+SpriteDrawer::SpriteDrawer(bool isVisibile,
+	Texture2D texture,
+	MyTransform* transform)
 {
 	_isVisible = isVisibile;
 	_texture = texture;

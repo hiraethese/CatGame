@@ -14,8 +14,12 @@ private:
 	bool _isActive;
 
 public:
-	Bullet(Vector2 position, Vector2 velocity,
-		float radius, double lifetime, int damage);
+	Bullet(Vector2 position,
+		Vector2 velocity,
+		float radius,
+		double lifetime,
+		int damage);
+
 	void DrawHitbox();
 	void DrawSprite(Texture2D bulletSprite);
 	void UpdateLocation(double currentTime);
