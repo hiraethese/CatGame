@@ -1,93 +1,45 @@
 #include "Wall.h"
-#include "raylib.h"
+#include "raymath.h"
 
 Wall::Wall(Vector2 position,
 	Vector2 size,
 	Color color,
-	const std::string& label,
 	int currentHealth,
-	int maxHealth)
+	int maxHealth,
+	Texture2D texture)
 {
-	_position = position;
-	_size = size;
-	_color = color;
-	_label = label;
-	_currentHealth = currentHealth;
-	_maxHealth = maxHealth;
-	_isVisible = true;
-	_isInvunerable = false;
-	_isDestroyed = false;
+	_transform = new MyTransform(position, size);
+	_sprite = new Drawer(true, texture, _transform);
+	_health = new Health(currentHealth, maxHealth, false, false);
+
+	Vector2 healthBarLocation = Vector2Add(_transform->GetPosition(), { 0.0f, -10.0f });
+	_healthBar = new Bar(healthBarLocation, { 200.0f, 5.0f },
+		GREEN, GRAY, _health->GetCurrentHealth(), _health->GetMaxHealth());
 }
 
-void Wall::DrawHitbox()
+void Wall::UpdateButton()
 {
-	if (!_isDestroyed)
-	{
-		DrawRectangleRec(GetHitbox(), _color);
-		DrawText(_label.c_str(), static_cast<int>(_position.x + _size.x / 4.0f),
-			static_cast<int>(_position.y + _size.y / 4.0f), 20, BLACK);
-	}
+	Vector2 healthBarLocation = Vector2Add(_transform->GetPosition(), { 0.0f, -10.0f });
+	Health* health = GetHealth();
+	_healthBar->Update(healthBarLocation,
+		health->GetCurrentHealth(), health->GetMaxHealth());
+
+	_sprite->DrawHitbox(WHITE);
+	_sprite->DrawLabel("Shoot Me");
+	_healthBar->Draw();
 }
 
-void Wall::ChangeLocation(Vector2 position, Vector2 size)
+MyTransform* Wall::GetTransform()
 {
-	_position = position;
-	_size = size;
+	return _transform;
 }
 
-void Wall::ChangeColor(Color newColor)
+Drawer* Wall::GetDrawer()
 {
-	_color = newColor;
+	return _sprite;
 }
 
-void Wall::ChangeLabel(const std::string& newLabel)
+Health* Wall::GetHealth()
 {
-	_label = newLabel;
-}
-
-void Wall::SetInvulnerability(bool isInvunerable)
-{
-	_isInvunerable = isInvunerable;
-}
-
-void Wall::TakeDamage(int damagePoints)
-{
-	if (!_isInvunerable)
-	{
-		_currentHealth -= damagePoints;
-
-		if (_currentHealth <= 0)
-		{
-			_currentHealth = 0;
-			_isDestroyed = true;
-		}
-
-		// healthBar->SetPoints(_maxHealth, _currentHealth);
-	}
-}
-
-void Wall::HealDamage(int healPoints)
-{
-	_currentHealth += healPoints;
-
-	if (_currentHealth >= _maxHealth)
-	{
-		_currentHealth = _maxHealth;
-	}
-}
-
-Rectangle Wall::GetHitbox()
-{
-	Rectangle button = { _position.x, _position.y, _size.x, _size.y };
-	return button;
-}
-
-int Wall::GetCurrentHealth()
-{
-	return _currentHealth;
-}
-
-int Wall::GetMaxHealth()
-{
-	return _maxHealth;
+	return _health;
 }

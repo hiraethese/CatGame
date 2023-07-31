@@ -1,30 +1,27 @@
 #pragma once
 
 #include "raylib.h"
+#include "MyTransform.h"
+#include "Drawer.h"
+#include "Movement.h"
 
 class Bullet
 {
 private:
-	Vector2 _position;
-	Vector2 _velocity;
-	float _radius;
-	double _lifetime;
-	int _damage;
-	double _spawntime;
-	bool _isActive;
+	MyTransform* _transform;
+	Drawer* _sprite;
+	Movement* _movement;
+	Vector2 _direction;
 
 public:
 	Bullet(Vector2 position,
-		Vector2 velocity,
-		float radius,
-		double lifetime,
-		int damage);
+		Vector2 target,
+		Vector2 size,
+		float speed,
+		Texture2D texture);
 
-	void DrawHitbox();
-	void DrawSprite(Texture2D bulletSprite);
-	void UpdateLocation(double currentTime);
-	Vector2 GetCenter();
-	float GetRadius();
-	bool IsActive();
-	void Delete();
+	void Update();
+	MyTransform* GetTransform();
+	Drawer* GetDrawer();
+	Movement* GetMovement();
 };

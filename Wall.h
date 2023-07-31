@@ -2,37 +2,28 @@
 
 #include <iostream>
 #include "raylib.h"
-#include "BarDisplay.h"
+#include "MyTransform.h"
+#include "Bar.h"
+#include "Health.h"
 
 class Wall
 {
 private:
-	Vector2 _position;
-	Vector2 _size;
-	Color _color;
-	std::string _label;
-	int _currentHealth;
-	int _maxHealth;
-	bool _isVisible;
-	bool _isInvunerable;
-	bool _isDestroyed;
+	MyTransform* _transform;
+	Drawer* _sprite;
+	Health* _health;
+	Bar* _healthBar;
 
 public:
 	Wall(Vector2 position,
 		Vector2 size,
 		Color color,
-		const std::string &label,
 		int currentHealth,
-		int maxHealth);
+		int maxHealth,
+		Texture2D texture);
 
-	void DrawHitbox();
-	void ChangeLocation(Vector2 newPosition, Vector2 newSize);
-	void ChangeColor(Color newColor);
-	void ChangeLabel(const std::string& newLabel);
-	void SetInvulnerability(bool isInvunerable);
-	void TakeDamage(int damagePoints);
-	void HealDamage(int healPoints);
-	Rectangle GetHitbox();
-	int GetCurrentHealth();
-	int GetMaxHealth();
+	void UpdateButton();
+	MyTransform* GetTransform();
+	Drawer* GetDrawer();
+	Health* GetHealth();
 };

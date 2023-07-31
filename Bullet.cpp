@@ -1,71 +1,43 @@
 #include "Bullet.h"
+#include "raymath.h"
 
 Bullet::Bullet(Vector2 position,
-	Vector2 velocity,
-	float radius,
-	double lifetime,
-	int damage)
+	Vector2 target,
+	Vector2 size,
+	float speed,
+	Texture2D texture)
 {
-	_position = position;
-	_velocity = velocity;
-	_radius = radius;
-	_lifetime = lifetime;
-	_damage = damage;
-	_spawntime = GetTime();
-	_isActive = true;
+	_transform = new MyTransform(position, size);
+	_sprite = new Drawer(true, texture, _transform);
+	_movement = new Movement(speed, _transform);
+	_direction = Vector2Normalize( Vector2Subtract(target, position) );
 }
 
-void Bullet::DrawHitbox()
+void Bullet::Update()
 {
-	if (_isActive) {
-		DrawCircleV(_position, 5, RED);
-	}
-}
+	_movement->MoveInDirection(_direction);
+	Vector2 position = _transform->GetPosition();
 
-void Bullet::DrawSprite(Texture2D bulletSprite)
-{
-	if (_isActive) {
-		DrawTexture(bulletSprite, static_cast<int>(_position.x),
-			static_cast<int>(_position.y), WHITE);
-	}
-}
-
-void Bullet::UpdateLocation(double currentTime)
-{
-	if (_isActive)
+	if (position.x > GetScreenWidth() || position.x < 0 ||
+		position.y > GetScreenHeight() || position.y < 0)
 	{
-		_position.x += _velocity.x * GetFrameTime();
-		_position.y += _velocity.y * GetFrameTime();
-
-		if (_position.x > GetScreenWidth() || _position.x < 0 ||
-			_position.y > GetScreenHeight() || _position.y < 0)
-		{
-			_isActive = false;
-		}
-
-		if (currentTime - _spawntime >= _lifetime)
-		{
-			_isActive = false;
-		}
+		_sprite->SetVisibility(false);
 	}
+
+	_sprite->Draw();
 }
 
-Vector2 Bullet::GetCenter()
+MyTransform* Bullet::GetTransform()
 {
-	return _position;
+	return _transform;
 }
 
-float Bullet::GetRadius()
+Drawer* Bullet::GetDrawer()
 {
-	return _radius;
+	return _sprite;
 }
 
-bool Bullet::IsActive()
+Movement* Bullet::GetMovement()
 {
-	return _isActive;
-}
-
-void Bullet::Delete()
-{
-	_isActive = false;
+	return _movement;
 }

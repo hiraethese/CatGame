@@ -127,27 +127,30 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BarDisplay.cpp" />
+    <ClCompile Include="Bar.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="CatGame.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Health.cpp" />
     <ClCompile Include="Movement.cpp" />
     <ClCompile Include="MyTransform.cpp" />
-    <ClCompile Include="SpriteDrawer.cpp" />
+    <ClCompile Include="RandomGenerator.cpp" />
+    <ClCompile Include="Drawer.cpp" />
     <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BarDisplay.h" />
+    <ClInclude Include="Bar.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Character.h" />
+    <ClInclude Include="global.h" />
+    <ClInclude Include="RandomGenerator.h" />
     <ClInclude Include="Health.h" />
     <ClInclude Include="Movement.h" />
     <ClInclude Include="MyTransform.h" />
-    <ClInclude Include="SpriteDrawer.h" />
+    <ClInclude Include="Drawer.h" />
     <ClInclude Include="Wall.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>

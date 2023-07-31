@@ -9,20 +9,7 @@ Movement::Movement(float speed,
 	_transform = transform;
 }
 
-void Movement::UpdateLocation(Vector2 target)
-{
-	Vector2 position = _transform->GetPosition();
-	Vector2 direction = Vector2Subtract(target, position);
-	direction = Vector2Normalize(direction);
-	Vector2 velocity = { direction.x * _speed, direction.y * _speed };
-
-	position.x += velocity.x * GetFrameTime();
-	position.y += velocity.y * GetFrameTime();
-
-	_transform->SetPosition(position);
-}
-
-void Movement::Move(Rectangle recCollision)
+void Movement::MoveWithKeyboard(Rectangle collision)
 {
 	Vector2 position = _transform->GetPosition();
 	Vector2 size = _transform->GetSize();
@@ -53,25 +40,55 @@ void Movement::Move(Rectangle recCollision)
 	if (position.y + size.y > GetScreenHeight())
 		position.y = GetScreenHeight() - size.y;
 
-	if (CheckCollisionRecs(_transform->GetHitbox(), recCollision))
+	if (CheckCollisionRecs(_transform->GetRectangle(), collision))
 	{
-		if (direction.x > 0 && position.x < recCollision.x)
+		if (direction.x > 0 && position.x < collision.x)
 		{
-			position.x = recCollision.x - size.x;
+			position.x = collision.x - size.x;
 		}
-		else if (direction.x < 0 && position.x + size.x > recCollision.x + recCollision.width)
+		else if (direction.x < 0 && position.x + size.x > collision.x + collision.width)
 		{
-			position.x = recCollision.x + recCollision.width;
+			position.x = collision.x + collision.width;
 		}
 
-		if (direction.y > 0 && position.y < recCollision.y)
+		if (direction.y > 0 && position.y < collision.y)
 		{
-			position.y = recCollision.y - size.y;
+			position.y = collision.y - size.y;
 		}
-		else if (direction.y < 0 && position.y + size.y > recCollision.y + recCollision.height)
+		else if (direction.y < 0 && position.y + size.y > collision.y + collision.height)
 		{
-			position.y = recCollision.y + recCollision.height;
+			position.y = collision.y + collision.height;
 		}
+	}
+
+	_transform->SetPosition(position);
+}
+
+void Movement::MoveInDirection(Vector2 direction)
+{
+	Vector2 position = _transform->GetPosition();
+
+	position.x += direction.x * _speed * GetFrameTime();
+	position.y += direction.y * _speed * GetFrameTime();
+
+	_transform->SetPosition(position);
+}
+
+void Movement::ChaseTarget(Vector2 target)
+{
+	Vector2 position = _transform->GetPosition();
+	Vector2 direction = Vector2Subtract(target, position);
+	direction = Vector2Normalize(direction);
+	float distanceToTarget = Vector2Distance(target, position);
+
+	if ( distanceToTarget > _speed * GetFrameTime() )
+	{
+		position.x += direction.x * _speed * GetFrameTime();
+		position.y += direction.y * _speed * GetFrameTime();
+	}
+	else
+	{
+		position = target;
 	}
 
 	_transform->SetPosition(position);

@@ -13,7 +13,7 @@ public:
 		Vector2 size);
 
 	void SetPosition(Vector2 newPosition);
-	Rectangle GetHitbox();
+	Rectangle GetRectangle();
 	Vector2 GetPosition();
 	Vector2 GetSize();
 };

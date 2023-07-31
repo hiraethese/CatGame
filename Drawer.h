@@ -2,8 +2,9 @@
 
 #include "raylib.h"
 #include "MyTransform.h"
+#include <string>
 
-class SpriteDrawer
+class Drawer
 {
 private:
 	bool _isVisible;
@@ -11,10 +12,12 @@ private:
 	MyTransform* _transform;
 
 public:
-	SpriteDrawer(bool isVisibile,
+	Drawer(bool isVisibile,
 		Texture2D texture,
 		MyTransform* transform);
 
+	void DrawLabel(std::string _label);
 	void DrawHitbox(Color color);
 	void Draw();
+	void SetVisibility(bool isVisible);
 };

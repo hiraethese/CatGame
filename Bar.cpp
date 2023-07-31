@@ -1,13 +1,13 @@
-#include "BarDisplay.h"
+#include "Bar.h"
 
-BarDisplay::BarDisplay(Vector2 position,
+Bar::Bar(Vector2 position,
 	Vector2 size,
 	Color filledPartColor,
 	Color emptyPartColor,
 	int currentPoints,
 	int maxPoints)
 {
-	_transform = new MyTransform(position, size);;
+	_transform = new MyTransform(position, size);
 	_filledPartColor = filledPartColor;
 	_emptyPartColor = emptyPartColor;
 	_currentPoints = currentPoints;
@@ -15,13 +15,14 @@ BarDisplay::BarDisplay(Vector2 position,
 	_isVisible = true;
 }
 
-void BarDisplay::SetPoints(int newCurrentPoints, int newMaxPoints)
+void Bar::Update(Vector2 newPosition, int newCurrentPoints, int newMaxPoints)
 {
+	_transform->SetPosition(newPosition);
 	_currentPoints = newCurrentPoints;
 	_maxPoints = newMaxPoints;
 }
 
-void BarDisplay::Draw()
+void Bar::Draw()
 {	
 	if (_isVisible)
 	{

@@ -2,9 +2,9 @@
 
 #include "raylib.h"
 #include "MyTransform.h"
-#include "SpriteDrawer.h"
+#include "Drawer.h"
 
-class BarDisplay
+class Bar
 {
 private:
 	MyTransform* _transform;
@@ -15,13 +15,13 @@ private:
 	bool _isVisible;
 
 public:
-	BarDisplay(Vector2 position,
+	Bar(Vector2 position,
 		Vector2 size,
 		Color filledPartColor,
 		Color emptyPartColor,
 		int currentPoints,
 		int maxPoints);
 
-	void SetPoints(int newCurrentPoints, int newMaxPoints);
+	void Update(Vector2 newPosition, int newCurrentPoints, int newMaxPoints);
 	void Draw();
 };

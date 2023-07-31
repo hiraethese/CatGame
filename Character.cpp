@@ -10,17 +10,32 @@ Character::Character(Vector2 position,
 	Texture2D texture)
 {
 	_transform = new MyTransform(position, size);
-	_drawer = new SpriteDrawer(true, texture, _transform);
+	_sprite = new Drawer(true, texture, _transform);
 	_movement = new Movement(speed, _transform);
 	_health = new Health(currentHealth, maxHealth, false, false);
-	_healthBar = new BarDisplay(_transform->GetPosition(), _transform->GetSize(),
-		GREEN, GRAY, _health->GetCurrentHealth(), _health->GetMaxHealth());
+
+	Vector2 healthBarLocation = Vector2Add( _transform->GetPosition(), { 0.0f, -10.0f } );
+	_healthBar = new Bar( healthBarLocation, { 45.0f, 5.0f },
+		GREEN, GRAY, _health->GetCurrentHealth(), _health->GetMaxHealth() );
 }
 
-void Character::Update(Rectangle collision)
+void Character::UpdateProtagonist(Rectangle collision)
 {
-	_movement->Move(collision);
-	_drawer->Draw();
+	_movement->MoveWithKeyboard(collision);
+	Vector2 healthBarLocation = Vector2Add( _transform->GetPosition(), { 0.0f, -10.0f } );
+	Health* health = GetHealth();
+	_healthBar->Update( healthBarLocation,
+		health->GetCurrentHealth(), health->GetMaxHealth() );
+
+	_sprite->Draw();
+	_healthBar->Draw();
+}
+
+void Character::UpdateEnemy(Vector2 target)
+{
+	_movement->ChaseTarget(target);
+
+	_sprite->Draw();
 }
 
 MyTransform* Character::GetTransform()
@@ -28,9 +43,9 @@ MyTransform* Character::GetTransform()
 	return _transform;
 }
 
-SpriteDrawer* Character::GetDrawer()
+Drawer* Character::GetDrawer()
 {
-	return _drawer;
+	return _sprite;
 }
 
 Movement* Character::GetMovement()

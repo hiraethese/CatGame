@@ -3,18 +3,18 @@
 #include <iostream>
 #include "raylib.h"
 #include "Movement.h"
-#include "SpriteDrawer.h"
+#include "Drawer.h"
 #include "Health.h"
-#include "BarDisplay.h"
+#include "Bar.h"
 
 class Character
 {
 private:
 	MyTransform* _transform;
-	SpriteDrawer* _drawer;
+	Drawer* _sprite;
 	Movement* _movement;
 	Health* _health;
-	BarDisplay* _healthBar;
+	Bar* _healthBar;
 
 public:
 	Character(Vector2 position,
@@ -24,9 +24,10 @@ public:
 		int maxHealth,
 		Texture2D texture);
 
-	void Update(Rectangle collision);
+	void UpdateProtagonist(Rectangle collision);
+	void UpdateEnemy(Vector2 target);
 	MyTransform* GetTransform();
-	SpriteDrawer* GetDrawer();
+	Drawer* GetDrawer();
 	Movement* GetMovement();
 	Health* GetHealth();
 };
