@@ -1,8 +1,6 @@
 #pragma once
 
-#include "raylib.h"
 #include "MyTransform.h"
-#include "Drawer.h"
 
 class Bar
 {

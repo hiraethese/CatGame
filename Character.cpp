@@ -1,6 +1,4 @@
 #include "Character.h"
-#include "raymath.h"
-#include <cmath>
 
 Character::Character(Vector2 position,
 	Vector2 size,
@@ -17,6 +15,8 @@ Character::Character(Vector2 position,
 	Vector2 healthBarLocation = Vector2Add( _transform->GetPosition(), { 0.0f, -10.0f } );
 	_healthBar = new Bar( healthBarLocation, { 45.0f, 5.0f },
 		GREEN, GRAY, _health->GetCurrentHealth(), _health->GetMaxHealth() );
+
+	_isGarbage = false;
 }
 
 void Character::UpdateProtagonist(Rectangle collision)
@@ -56,4 +56,9 @@ Movement* Character::GetMovement()
 Health* Character::GetHealth()
 {
 	return _health;
+}
+
+bool Character::IsGarbage()
+{
+	return _isGarbage;
 }

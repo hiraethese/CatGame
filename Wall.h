@@ -1,10 +1,11 @@
 #pragma once
 
-#include <iostream>
 #include "raylib.h"
+#include "raymath.h"
 #include "MyTransform.h"
-#include "Bar.h"
+#include "Drawer.h"
 #include "Health.h"
+#include "Bar.h"
 
 class Wall
 {

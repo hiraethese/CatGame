@@ -1,6 +1,4 @@
 #include "Movement.h"
-#include "MyTransform.h"
-#include "raymath.h"
 
 Movement::Movement(float speed,
 	MyTransform* transform)

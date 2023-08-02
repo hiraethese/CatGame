@@ -1,9 +1,7 @@
 #pragma once
 
-#include "raylib.h"
-#include "MyTransform.h"
-#include "Drawer.h"
 #include "Movement.h"
+#include "Drawer.h"
 
 class Bullet
 {
@@ -12,6 +10,7 @@ private:
 	Drawer* _sprite;
 	Movement* _movement;
 	Vector2 _direction;
+	bool _isGarbage;
 
 public:
 	Bullet(Vector2 position,
@@ -24,4 +23,5 @@ public:
 	MyTransform* GetTransform();
 	Drawer* GetDrawer();
 	Movement* GetMovement();
+	bool IsGarbage();
 };

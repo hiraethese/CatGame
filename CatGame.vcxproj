@@ -134,8 +134,12 @@
     <ClCompile Include="Health.cpp" />
     <ClCompile Include="Movement.cpp" />
     <ClCompile Include="MyTransform.cpp" />
-    <ClCompile Include="RandomGenerator.cpp" />
+    <ClCompile Include="randomGenerator.cpp" />
     <ClCompile Include="Drawer.cpp" />
+    <ClCompile Include="Skill.cpp" />
+    <ClCompile Include="skillLibrary.cpp" />
+    <ClCompile Include="Spawner.cpp" />
+    <ClCompile Include="utils.cpp" />
     <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -145,12 +149,16 @@
     <ClInclude Include="Bar.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Character.h" />
-    <ClInclude Include="global.h" />
-    <ClInclude Include="RandomGenerator.h" />
+    <ClInclude Include="globals.h" />
+    <ClInclude Include="randomGenerator.h" />
     <ClInclude Include="Health.h" />
     <ClInclude Include="Movement.h" />
     <ClInclude Include="MyTransform.h" />
     <ClInclude Include="Drawer.h" />
+    <ClInclude Include="Skill.h" />
+    <ClInclude Include="skillLibrary.h" />
+    <ClInclude Include="Spawner.h" />
+    <ClInclude Include="utils.h" />
     <ClInclude Include="Wall.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>

@@ -1,4 +1,4 @@
-#include "randomGenerator.h"
+#include "random_generator.h"
 
 Vector2 GenerateRandomLocationOutsideScreen()
 {

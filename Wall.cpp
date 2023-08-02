@@ -1,5 +1,4 @@
 #include "Wall.h"
-#include "raymath.h"
 
 Wall::Wall(Vector2 position,
 	Vector2 size,

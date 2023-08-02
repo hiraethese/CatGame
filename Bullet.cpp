@@ -1,5 +1,4 @@
 #include "Bullet.h"
-#include "raymath.h"
 
 Bullet::Bullet(Vector2 position,
 	Vector2 target,
@@ -11,6 +10,7 @@ Bullet::Bullet(Vector2 position,
 	_sprite = new Drawer(true, texture, _transform);
 	_movement = new Movement(speed, _transform);
 	_direction = Vector2Normalize( Vector2Subtract(target, position) );
+	_isGarbage = false;
 }
 
 void Bullet::Update()
@@ -40,4 +40,9 @@ Drawer* Bullet::GetDrawer()
 Movement* Bullet::GetMovement()
 {
 	return _movement;
+}
+
+bool Bullet::IsGarbage()
+{
+	return _isGarbage;
 }

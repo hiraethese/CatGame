@@ -1,5 +1,4 @@
 #include "Drawer.h"
-#include <string>
 
 Drawer::Drawer(bool isVisibile,
 	Texture2D texture,

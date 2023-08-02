@@ -1,5 +1,5 @@
-#ifndef RANDOMGENERATOR_H
-#define RANDOMGENERATOR_H
+#ifndef RANDOM_GENERATOR_H
+#define RANDOM_GENERATOR_H
 
 #include "raylib.h"
 #include "globals.h"

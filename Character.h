@@ -1,7 +1,5 @@
 #pragma once
 
-#include <iostream>
-#include "raylib.h"
 #include "Movement.h"
 #include "Drawer.h"
 #include "Health.h"
@@ -15,6 +13,7 @@ private:
 	Movement* _movement;
 	Health* _health;
 	Bar* _healthBar;
+	bool _isGarbage;
 
 public:
 	Character(Vector2 position,
@@ -30,4 +29,5 @@ public:
 	Drawer* GetDrawer();
 	Movement* GetMovement();
 	Health* GetHealth();
+	bool IsGarbage();
 };
