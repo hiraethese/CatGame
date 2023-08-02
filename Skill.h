@@ -1,8 +1,6 @@
 #pragma once
 
-#include <string>
 #include <unordered_map>
-#include "raylib.h"
 #include "skillLibrary.h"
 
 class Skill
