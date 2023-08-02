@@ -1,3 +1,6 @@
+#include "Spawner.h"
+#include "Skill.h"
+
 #include "Character.h"
 
 Character::Character(Vector2 position,
@@ -16,19 +19,22 @@ Character::Character(Vector2 position,
 	_healthBar = new Bar( healthBarLocation, { 45.0f, 5.0f },
 		GREEN, GRAY, _health->GetCurrentHealth(), _health->GetMaxHealth() );
 
+	_skill = new Skill(false, false);
 	_isGarbage = false;
 }
 
-void Character::UpdateProtagonist(Rectangle collision)
+void Character::UpdateProtagonist(Spawner* spawner, Rectangle collision)
 {
 	_movement->MoveWithKeyboard(collision);
 	Vector2 healthBarLocation = Vector2Add( _transform->GetPosition(), { 0.0f, -10.0f } );
 	Health* health = GetHealth();
-	_healthBar->Update( healthBarLocation,
-		health->GetCurrentHealth(), health->GetMaxHealth() );
+	_healthBar->Update(healthBarLocation,
+		health->GetCurrentHealth(), health->GetMaxHealth());
 
 	_sprite->Draw();
 	_healthBar->Draw();
+
+	_skill->CheckAndPerformAction( spawner, _transform->GetPosition() );
 }
 
 void Character::UpdateEnemy(Vector2 target)
@@ -56,6 +62,11 @@ Movement* Character::GetMovement()
 Health* Character::GetHealth()
 {
 	return _health;
+}
+
+Skill* Character::GetSkill()
+{
+	return _skill;
 }
 
 bool Character::IsGarbage()

@@ -1,5 +1,4 @@
-#ifndef UTILITY_H
-#define UTILITY_H
+#pragma once
 
 #include <iostream>
 #include <string>
@@ -7,5 +6,3 @@
 #include "globals.h"
 
 void DrawGameStatistics();
-
-#endif

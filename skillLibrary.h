@@ -1,5 +1,4 @@
-#ifndef SKILL_BOOK_H
-#define SKILL_BOOK_H
+#pragma once
 
 #include "raylib.h"
 #include "globals.h"
@@ -8,5 +7,3 @@
 
 void ShootWithLMB(Spawner* spawner, Vector2 startPos);
 void RandomlySpawnEnemy(Spawner* spawner);
-
-#endif

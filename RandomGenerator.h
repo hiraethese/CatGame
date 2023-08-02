@@ -1,9 +1,6 @@
-#ifndef RANDOMGENERATOR_H
-#define RANDOMGENERATOR_H
+#pragma once
 
 #include "raylib.h"
 #include "globals.h"
 
 Vector2 GenerateRandomLocationOutsideScreen();
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef GLOBALS_H
-#define GLOBALS_H
+#pragma once
 
 extern float SCREEN_WIDTH;
 extern float SCREEN_HEIGHT;
@@ -11,5 +10,3 @@ extern Texture2D mainCharacterSprite;
 extern Texture2D simpleEnemySprite;
 extern Texture2D mainBulletSprite;
 extern Texture2D mainButtonSprite;
-
-#endif

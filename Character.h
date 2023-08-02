@@ -1,5 +1,8 @@
 #pragma once
 
+class Spawner;
+class Skill;
+
 #include "Movement.h"
 #include "Drawer.h"
 #include "Health.h"
@@ -13,6 +16,7 @@ private:
 	Movement* _movement;
 	Health* _health;
 	Bar* _healthBar;
+	Skill* _skill;
 	bool _isGarbage;
 
 public:
@@ -23,11 +27,12 @@ public:
 		int maxHealth,
 		Texture2D texture);
 
-	void UpdateProtagonist(Rectangle collision);
+	void UpdateProtagonist(Spawner* spawner, Rectangle collision);
 	void UpdateEnemy(Vector2 target);
 	MyTransform* GetTransform();
 	Drawer* GetDrawer();
 	Movement* GetMovement();
 	Health* GetHealth();
+	Skill* GetSkill();
 	bool IsGarbage();
 };

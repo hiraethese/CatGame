@@ -2,6 +2,7 @@
 #include "utils.h"
 #include "randomGenerator.h"
 #include "Character.h"
+#include "Skill.h"
 #include "Wall.h"
 #include "Bullet.h"
 #include "Spawner.h"
@@ -34,10 +35,14 @@ int main(void)
     mainBulletSprite = LoadTexture("textures/Sprite-0015main.png");
     mainButtonSprite = {};
 
-    mainCharacter = new Character( { 400.0f, 400.0f }, { 20.0f, 20.0f }, 250.0f, 100, 100, mainCharacterSprite);
+    mainCharacter = new Character( { 400.0f, 400.0f }, { 20.0f, 20.0f },
+        250.0f, 100, 100, mainCharacterSprite);
+    mainCharacter->GetSkill()->ChangeSkill("canShootWithLMB", true);
+    mainCharacter->GetSkill()->ChangeSkill("canRandomlySpawnEnemy", true);
 
     mainButton = new Wall( { SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 - 25 },
         { 200, 50 }, WHITE, 100, 100, mainCharacterSprite );
+    Rectangle mainButtonRec = mainButton->GetTransform()->GetRectangle();
 
     spawner = new Spawner();
 
@@ -49,14 +54,9 @@ int main(void)
         ClearBackground(BLACK);
 
         mainButton->UpdateButton();
-
-        mainCharacter->UpdateProtagonist(mainButton->GetTransform()->GetRectangle());
-
-        ShootWithLMB( spawner, mainCharacter->GetTransform()->GetPosition() );
-        spawner->UpdateBullets();
-
-        RandomlySpawnEnemy( spawner );
+        mainCharacter->UpdateProtagonist(spawner, mainButtonRec);
         spawner->UpdateEnemies( mainCharacter->GetTransform()->GetPosition() );
+        spawner->UpdateBullets();
 
         DrawGameStatistics();
 
