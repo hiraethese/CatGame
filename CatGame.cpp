@@ -7,6 +7,7 @@
 #include "Bullet.h"
 #include "Spawner.h"
 #include "skillLibrary.h"
+#include "Box2D.h"
 
 float SCREEN_WIDTH = 1280.0f;
 float SCREEN_HEIGHT = 720.0f;
@@ -47,8 +48,6 @@ int main(void)
 
     while (!WindowShouldClose())
     {
-        GAME_TIME = static_cast<int>(GetTime());
-
         BeginDrawing();
         ClearBackground(BLACK);
 
