@@ -27,7 +27,7 @@ public:
 		int maxHealth,
 		Texture2D texture);
 
-	void UpdateProtagonist(Spawner* spawner, Rectangle collision);
+	void UpdateProtagonist(Spawner* spawner);
 	void UpdateEnemy(Vector2 target);
 	MyTransform* GetTransform();
 	Drawer* GetDrawer();

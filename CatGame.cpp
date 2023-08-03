@@ -53,7 +53,7 @@ int main(void)
         ClearBackground(BLACK);
 
         mainButton->UpdateButton();
-        mainCharacter->UpdateProtagonist(spawner, mainButtonRec);
+        mainCharacter->UpdateProtagonist(spawner);
         spawner->UpdateEnemies( mainCharacter->GetTransform()->GetPosition() );
         spawner->UpdateBullets();
 

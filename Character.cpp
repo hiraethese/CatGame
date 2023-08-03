@@ -23,16 +23,11 @@ Character::Character(Vector2 position,
 	_isGarbage = false;
 }
 
-void Character::UpdateProtagonist(Spawner* spawner, Rectangle collision)
+void Character::UpdateProtagonist(Spawner* spawner)
 {
-	_movement->MoveWithKeyboard(collision);
-	Vector2 healthBarLocation = Vector2Add( _transform->GetPosition(), { 0.0f, -10.0f } );
-	Health* health = GetHealth();
-	_healthBar->Update(healthBarLocation,
-		health->GetCurrentHealth(), health->GetMaxHealth());
+	_movement->MoveWithKeyboard();
 
 	_sprite->Draw();
-	_healthBar->Draw();
 
 	_skill->CheckAndPerformAction( spawner, _transform->GetPosition() );
 }

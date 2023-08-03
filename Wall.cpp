@@ -18,14 +18,9 @@ Wall::Wall(Vector2 position,
 
 void Wall::UpdateButton()
 {
-	Vector2 healthBarLocation = Vector2Add(_transform->GetPosition(), { 0.0f, -10.0f });
-	Health* health = GetHealth();
-	_healthBar->Update(healthBarLocation,
-		health->GetCurrentHealth(), health->GetMaxHealth());
-
 	_sprite->DrawHitbox(WHITE);
+
 	_sprite->DrawLabel("Shoot Me");
-	_healthBar->Draw();
 }
 
 MyTransform* Wall::GetTransform()

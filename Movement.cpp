@@ -7,7 +7,7 @@ Movement::Movement(float speed,
 	_transform = transform;
 }
 
-void Movement::MoveWithKeyboard(Rectangle collision)
+void Movement::MoveWithKeyboard()
 {
 	Vector2 position = _transform->GetPosition();
 	Vector2 size = _transform->GetSize();
@@ -37,27 +37,6 @@ void Movement::MoveWithKeyboard(Rectangle collision)
 	if (position.y < 0) position.y = 0;
 	if (position.y + size.y > GetScreenHeight())
 		position.y = GetScreenHeight() - size.y;
-
-	if (CheckCollisionRecs(_transform->GetRectangle(), collision))
-	{
-		if (direction.x > 0 && position.x < collision.x)
-		{
-			position.x = collision.x - size.x;
-		}
-		else if (direction.x < 0 && position.x + size.x > collision.x + collision.width)
-		{
-			position.x = collision.x + collision.width;
-		}
-
-		if (direction.y > 0 && position.y < collision.y)
-		{
-			position.y = collision.y - size.y;
-		}
-		else if (direction.y < 0 && position.y + size.y > collision.y + collision.height)
-		{
-			position.y = collision.y + collision.height;
-		}
-	}
 
 	_transform->SetPosition(position);
 }

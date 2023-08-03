@@ -18,12 +18,6 @@ void Bullet::Update()
 	_movement->MoveInDirection(_direction);
 	Vector2 position = _transform->GetPosition();
 
-	if (position.x > GetScreenWidth() || position.x < 0 ||
-		position.y > GetScreenHeight() || position.y < 0)
-	{
-		_sprite->SetVisibility(false);
-	}
-
 	_sprite->Draw();
 }
 

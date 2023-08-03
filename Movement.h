@@ -14,7 +14,7 @@ public:
 	Movement(float speed,
 		MyTransform* transform);
 
-	void MoveWithKeyboard(Rectangle collision);
+	void MoveWithKeyboard();
 	void MoveInDirection(Vector2 direction);
 	void ChaseTarget(Vector2 target);
 	void SetSpeed(float newSpeed);
