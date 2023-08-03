@@ -6,7 +6,6 @@
 #include "Wall.h"
 #include "Bullet.h"
 #include "Spawner.h"
-
 #include "skillLibrary.h"
 
 float SCREEN_WIDTH = 1280.0f;
