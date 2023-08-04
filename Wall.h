@@ -11,8 +11,8 @@ class Wall
 {
 private:
 	MyTransform* _transform;
-	Drawer* _sprite;
 	PhysicsBody* _physicsBody;
+	Drawer* _sprite;
 
 public:
 	Wall(b2World* world,

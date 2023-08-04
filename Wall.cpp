@@ -7,8 +7,8 @@ Wall::Wall(b2World* world,
 	Texture2D texture)
 {
 	_transform = new MyTransform(world, position, size);
-	_sprite = new Drawer(true, texture, _transform);
 	_physicsBody = new PhysicsBody(0.0f, world, _transform);
+	_sprite = new Drawer(true, texture, _transform);
 }
 
 void Wall::UpdateButton()
