@@ -3,7 +3,7 @@
 class Spawner;
 class Skill;
 
-#include "Movement.h"
+#include "PhysicsBody.h"
 #include "Drawer.h"
 #include "Health.h"
 #include "Bar.h"
@@ -12,15 +12,16 @@ class Character
 {
 private:
 	MyTransform* _transform;
+	PhysicsBody* _physicsBody;
 	Drawer* _sprite;
-	Movement* _movement;
 	Health* _health;
 	Bar* _healthBar;
 	Skill* _skill;
 	bool _isGarbage;
 
 public:
-	Character(Vector2 position,
+	Character(b2World* world,
+		Vector2 position,
 		Vector2 size,
 		float speed,
 		int currentHealth,
@@ -31,7 +32,7 @@ public:
 	void UpdateEnemy(Vector2 target);
 	MyTransform* GetTransform();
 	Drawer* GetDrawer();
-	Movement* GetMovement();
+	PhysicsBody* GetPhysicsBody();
 	Health* GetHealth();
 	Skill* GetSkill();
 	bool IsGarbage();

@@ -1,19 +1,14 @@
 #include "Wall.h"
 
-Wall::Wall(Vector2 position,
+Wall::Wall(b2World* world,
+	Vector2 position,
 	Vector2 size,
 	Color color,
-	int currentHealth,
-	int maxHealth,
 	Texture2D texture)
 {
-	_transform = new MyTransform(position, size);
+	_transform = new MyTransform(world, position, size);
 	_sprite = new Drawer(true, texture, _transform);
-	_health = new Health(currentHealth, maxHealth, false, false);
-
-	Vector2 healthBarLocation = Vector2Add(_transform->GetPosition(), { 0.0f, -10.0f });
-	_healthBar = new Bar(healthBarLocation, { 200.0f, 5.0f },
-		GREEN, GRAY, _health->GetCurrentHealth(), _health->GetMaxHealth());
+	_physicsBody = new PhysicsBody(0.0f, world, _transform);
 }
 
 void Wall::UpdateButton()
@@ -23,7 +18,7 @@ void Wall::UpdateButton()
 	_sprite->DrawLabel("Shoot Me");
 }
 
-MyTransform* Wall::GetTransform()
+MyTransform* Wall::GetTransform() 
 {
 	return _transform;
 }
@@ -33,7 +28,7 @@ Drawer* Wall::GetDrawer()
 	return _sprite;
 }
 
-Health* Wall::GetHealth()
+PhysicsBody* Wall::GetPhysicsBody()
 {
-	return _health;
+	return _physicsBody;
 }

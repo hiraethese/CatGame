@@ -1,27 +1,28 @@
 #pragma once
 
-#include "Movement.h"
+#include "raylib.h"
+#include "PhysicsBody.h"
 #include "Drawer.h"
 
 class Bullet
 {
 private:
 	MyTransform* _transform;
+	PhysicsBody* _physicsBody;
 	Drawer* _sprite;
-	Movement* _movement;
 	Vector2 _direction;
 	bool _isGarbage;
 
 public:
-	Bullet(Vector2 position,
-		Vector2 target,
+	Bullet(float speed,
+		b2World* world,
+		Vector2 position,
 		Vector2 size,
-		float speed,
+		Vector2 direction,
 		Texture2D texture);
 
 	void Update();
-	MyTransform* GetTransform();
+	PhysicsBody* GetPhysicsBody();
 	Drawer* GetDrawer();
-	Movement* GetMovement();
 	bool IsGarbage();
 };

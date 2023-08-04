@@ -13,8 +13,7 @@ private:
 	bool _isVisible;
 
 public:
-	Bar(Vector2 position,
-		Vector2 size,
+	Bar(MyTransform* transform,
 		Color filledPartColor,
 		Color emptyPartColor,
 		int currentPoints,

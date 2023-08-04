@@ -1,39 +1,41 @@
 #include "Bullet.h"
 
-Bullet::Bullet(Vector2 position,
-	Vector2 target,
+Bullet::Bullet(float speed,
+	b2World* world,
+	Vector2 position,
 	Vector2 size,
-	float speed,
+	Vector2 direction,
 	Texture2D texture)
 {
-	_transform = new MyTransform(position, size);
+	_transform = new MyTransform(world, position, size);
+	_physicsBody = new PhysicsBody(speed, world, _transform);
 	_sprite = new Drawer(true, texture, _transform);
-	_movement = new Movement(speed, _transform);
-	_direction = Vector2Normalize( Vector2Subtract(target, position) );
+	_direction = direction;
 	_isGarbage = false;
 }
 
 void Bullet::Update()
 {
-	_movement->MoveInDirection(_direction);
-	Vector2 position = _transform->GetPosition();
+	_physicsBody->MoveInDirection(_direction);
 
 	_sprite->Draw();
+
+	Vector2 position = _physicsBody->GetTransform()->GetPosition();
+	if (position.x < 0 || position.x > SCREEN_WIDTH ||
+		position.y < 0 || position.y > SCREEN_HEIGHT)
+	{
+		_isGarbage = true;
+	}
 }
 
-MyTransform* Bullet::GetTransform()
+PhysicsBody* Bullet::GetPhysicsBody()
 {
-	return _transform;
+	return _physicsBody;
 }
 
 Drawer* Bullet::GetDrawer()
 {
 	return _sprite;
-}
-
-Movement* Bullet::GetMovement()
-{
-	return _movement;
 }
 
 bool Bullet::IsGarbage()

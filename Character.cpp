@@ -3,21 +3,21 @@
 
 #include "Character.h"
 
-Character::Character(Vector2 position,
+Character::Character(b2World* world,
+	Vector2 position,
 	Vector2 size,
 	float speed,
 	int currentHealth,
 	int maxHealth,
 	Texture2D texture)
 {
-	_transform = new MyTransform(position, size);
+	_transform = new MyTransform(world, position, size);
+	_physicsBody = new PhysicsBody(speed, world, _transform);
 	_sprite = new Drawer(true, texture, _transform);
-	_movement = new Movement(speed, _transform);
 	_health = new Health(currentHealth, maxHealth, false, false);
 
-	Vector2 healthBarLocation = Vector2Add( _transform->GetPosition(), { 0.0f, -10.0f } );
-	_healthBar = new Bar( healthBarLocation, { 45.0f, 5.0f },
-		GREEN, GRAY, _health->GetCurrentHealth(), _health->GetMaxHealth() );
+	_healthBar = new Bar(_transform, GREEN, GRAY,
+		_health->GetCurrentHealth(), _health->GetMaxHealth());
 
 	_skill = new Skill(false, false);
 	_isGarbage = false;
@@ -25,7 +25,7 @@ Character::Character(Vector2 position,
 
 void Character::UpdateProtagonist(Spawner* spawner)
 {
-	_movement->MoveWithKeyboard();
+	_physicsBody->MoveWithKeyboard();
 
 	_sprite->Draw();
 
@@ -34,7 +34,7 @@ void Character::UpdateProtagonist(Spawner* spawner)
 
 void Character::UpdateEnemy(Vector2 target)
 {
-	_movement->ChaseTarget(target);
+	_physicsBody->ChaseTarget(target);
 
 	_sprite->Draw();
 }
@@ -49,9 +49,9 @@ Drawer* Character::GetDrawer()
 	return _sprite;
 }
 
-Movement* Character::GetMovement()
+PhysicsBody* Character::GetPhysicsBody()
 {
-	return _movement;
+	return _physicsBody;
 }
 
 Health* Character::GetHealth()

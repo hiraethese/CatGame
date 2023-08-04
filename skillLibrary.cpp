@@ -6,7 +6,9 @@ void ShootWithLMB(Spawner* spawner, Vector2 startPos)
     {
         Vector2 mousePos = GetMousePosition();
 
-        spawner->SpawnBulletWithTarget(startPos, mousePos, mainBulletSprite);
+        Vector2 direction = Vector2Normalize( Vector2Subtract(mousePos, startPos) );
+
+        spawner->SpawnBulletWithDirection( startPos, direction, mainBulletSprite );
     }
 }
 
@@ -16,6 +18,6 @@ void RandomlySpawnEnemy(Spawner* spawner)
     {
         Vector2 startPos = GenerateRandomLocationOutsideScreen();
 
-        spawner->SpawnSimpleEnemy(startPos, simpleEnemySprite);
+        spawner->SpawnSimpleEnemy( startPos, simpleEnemySprite );
     }
 }

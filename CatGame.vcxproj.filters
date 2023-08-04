@@ -36,7 +36,7 @@
     <ClCompile Include="MyTransform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Movement.cpp">
+    <ClCompile Include="PhysicsBody.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Drawer.cpp">
@@ -83,7 +83,7 @@
     <ClInclude Include="MyTransform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Movement.h">
+    <ClInclude Include="PhysicsBody.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Drawer.h">

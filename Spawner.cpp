@@ -1,6 +1,9 @@
 #include "Spawner.h"
 
-Spawner::Spawner() {}
+Spawner::Spawner(b2World* world)
+{
+	_world = world;
+}
 
 void Spawner::AddEnemy(Character* enemy)
 {
@@ -39,17 +42,18 @@ void Spawner::SpawnSimpleEnemy(Vector2 startPos, Texture2D sprite)
 	int currentHealth = 100;
 	int maxHealth = 100;
 
-	Character* enemy = new Character(startPos, size, speed, currentHealth, maxHealth, sprite);
+	Character* enemy = new Character(_world, startPos, size,
+		speed, currentHealth, maxHealth, sprite);
 
 	AddEnemy(enemy);
 }
 
-void Spawner::SpawnBulletWithTarget(Vector2 startPos, Vector2 targetPos, Texture2D sprite)
+void Spawner::SpawnBulletWithDirection(Vector2 startPos, Vector2 direction, Texture2D sprite)
 {
 	Vector2 size = { 100.0f, 100.0f };
 	float speed = 500.0f;
 
-	Bullet* bullet = new Bullet(startPos, targetPos, size, speed, sprite);
+	Bullet* bullet = new Bullet(speed, _world, startPos, size, direction, sprite);
 
 	AddBullet(bullet);
 }

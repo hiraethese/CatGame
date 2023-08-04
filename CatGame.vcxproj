@@ -132,7 +132,7 @@
     <ClCompile Include="CatGame.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Health.cpp" />
-    <ClCompile Include="Movement.cpp" />
+    <ClCompile Include="PhysicsBody.cpp" />
     <ClCompile Include="MyTransform.cpp" />
     <ClCompile Include="randomGenerator.cpp" />
     <ClCompile Include="Drawer.cpp" />
@@ -152,7 +152,7 @@
     <ClInclude Include="globals.h" />
     <ClInclude Include="randomGenerator.h" />
     <ClInclude Include="Health.h" />
-    <ClInclude Include="Movement.h" />
+    <ClInclude Include="PhysicsBody.h" />
     <ClInclude Include="MyTransform.h" />
     <ClInclude Include="Drawer.h" />
     <ClInclude Include="Skill.h" />

@@ -1,13 +1,12 @@
 #include "Bar.h"
 
-Bar::Bar(Vector2 position,
-	Vector2 size,
+Bar::Bar(MyTransform* transform,
 	Color filledPartColor,
 	Color emptyPartColor,
 	int currentPoints,
 	int maxPoints)
 {
-	_transform = new MyTransform(position, size);
+	_transform = transform;
 	_filledPartColor = filledPartColor;
 	_emptyPartColor = emptyPartColor;
 	_currentPoints = currentPoints;
