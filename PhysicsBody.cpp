@@ -45,7 +45,8 @@ void PhysicsBody::MoveWithKeyboard()
     newPosition.x = Clamp(newPosition.x, halfWidth, SCREEN_WIDTH - halfWidth);
     newPosition.y = Clamp(newPosition.y, halfHeight, SCREEN_HEIGHT - halfHeight);
 
-    if ( CheckCollision(newPosition - _body->GetPosition()) ) {
+    if ( CheckCollision(newPosition - _body->GetPosition()) )
+    {
         newPosition = _body->GetPosition();
     }
 
@@ -62,7 +63,8 @@ void PhysicsBody::ChaseTarget(Vector2 target)
         b2Vec2(direction.x * _speed * GetFrameTime(),
             direction.y * _speed * GetFrameTime());
 
-    if ( CheckCollision(newPosition - _body->GetPosition()) ) {
+    if ( CheckCollision(newPosition - _body->GetPosition()) )
+    {
         newPosition = _body->GetPosition();
     }
 
@@ -76,9 +78,39 @@ void PhysicsBody::MoveInDirection(Vector2 direction)
     b2Vec2 velocity = b2Vec2(direction.x * _speed * GetFrameTime(),
         direction.y * _speed * GetFrameTime());
 
-    b2Vec2 newPosition = _body->GetPosition() + velocity;
+    if (!CheckCollision(velocity)) {
+        b2Vec2 newPosition = _body->GetPosition() + velocity;
 
-    _body->SetTransform(newPosition, _body->GetAngle());
+        _body->SetTransform(newPosition, _body->GetAngle());
+    }
+}
+
+void PhysicsBody::BeginContact(b2Contact* contact)
+{
+    b2Fixture* fixtureA = contact->GetFixtureA();
+    b2Fixture* fixtureB = contact->GetFixtureB();
+
+    void* userDataA = fixtureA->GetUserData();
+    void* userDataB = fixtureB->GetUserData();
+
+    if ((userDataA == this && userDataB != this) || (userDataB == this && userDataA != this))
+    {
+        Vector2 characterPosition = _transform->GetPosition();
+        Vector2 characterSize = _transform->GetSize();
+
+        Vector2 wallPosition = static_cast<MyTransform*>
+            (userDataA == this ? userDataB : userDataA)->GetPosition();
+        Vector2 wallSize = static_cast<MyTransform*>
+            (userDataA == this ? userDataB : userDataA)->GetSize();
+
+        if (characterPosition.x - characterSize.x / 2 < wallPosition.x + wallSize.x / 2 &&
+            characterPosition.x + characterSize.x / 2 > wallPosition.x - wallSize.x / 2 &&
+            characterPosition.y - characterSize.y / 2 < wallPosition.y + wallSize.y / 2 &&
+            characterPosition.y + characterSize.y / 2 > wallPosition.y - wallSize.y / 2)
+        {
+            _body->SetLinearVelocity(b2Vec2_zero);
+        }
+    }
 }
 
 bool PhysicsBody::CheckCollision(const b2Vec2& velocity)

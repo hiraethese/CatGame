@@ -23,6 +23,7 @@ public:
 	void MoveWithKeyboard();
 	void ChaseTarget(Vector2 target);
 	void MoveInDirection(Vector2 direction);
+	void BeginContact(b2Contact* contact);
 	bool CheckCollision(const b2Vec2& velocity);
 	MyTransform* GetTransform();
 };
