@@ -11,8 +11,8 @@ Character::Character(b2World* world,
 	int maxHealth,
 	Texture2D texture)
 {
-	_transform = new MyTransform(world, position, size);
-	_physicsBody = new PhysicsBody(speed, world, _transform);
+	_transform = new MyTransform(position, size);
+	_physicsBody = new PhysicsBody(world, _transform, speed);
 	_sprite = new Drawer(true, texture, _transform);
 	_health = new Health(currentHealth, maxHealth, false, false);
 

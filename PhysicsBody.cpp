@@ -1,24 +1,32 @@
 #include "PhysicsBody.h"
 
-PhysicsBody::PhysicsBody(float speed,
-	b2World* world,
-	MyTransform* transform)
+PhysicsBody::PhysicsBody(b2World* world,
+    MyTransform* transform,
+    float speed)
 {
-	_speed = speed;
-	_world = world;
-	_transform = transform;
+    _world = world;
+    _transform = transform;
+    _speed = speed;
 
-	_body = _transform->GetBody();
-}
+    Vector2 position = _transform->GetPosition();
+    Vector2 size = _transform->GetSize();
 
-void PhysicsBody::SetSpeed(float newSpeed)
-{
-	_speed = newSpeed;
+    b2BodyDef bodyDef;
+    bodyDef.type = b2_dynamicBody;
+    bodyDef.position.Set(position.x, position.y);
+    _body = _world->CreateBody(&bodyDef);
+
+    b2PolygonShape boxShape;
+    boxShape.SetAsBox(size.x / 2, size.y / 2);
+    b2FixtureDef fixtureDef;
+    fixtureDef.shape = &boxShape;
+    fixtureDef.density = 1.0f;
+    fixtureDef.friction = 0.3f;
+    _body->CreateFixture(&fixtureDef);
 }
 
 void PhysicsBody::MoveWithKeyboard()
 {
-    Vector2 position = _transform->GetPosition();
     Vector2 direction = { 0.0f, 0.0f };
 
     if (IsKeyDown(KEY_W)) {
@@ -39,18 +47,13 @@ void PhysicsBody::MoveWithKeyboard()
     b2Vec2 newPosition = _body->GetPosition() +
         b2Vec2(direction.x * _speed * GetFrameTime(),
             direction.y * _speed * GetFrameTime());
-
+    
     float halfWidth = _transform->GetSize().x * 0.5f;
     float halfHeight = _transform->GetSize().y * 0.5f;
     newPosition.x = Clamp(newPosition.x, halfWidth, SCREEN_WIDTH - halfWidth);
     newPosition.y = Clamp(newPosition.y, halfHeight, SCREEN_HEIGHT - halfHeight);
 
-    if ( CheckCollision(newPosition - _body->GetPosition()) )
-    {
-        newPosition = _body->GetPosition();
-    }
-
-    _body->SetTransform( newPosition, _body->GetAngle() );
+    SetTransform(newPosition);
 }
 
 void PhysicsBody::ChaseTarget(Vector2 target)
@@ -63,12 +66,7 @@ void PhysicsBody::ChaseTarget(Vector2 target)
         b2Vec2(direction.x * _speed * GetFrameTime(),
             direction.y * _speed * GetFrameTime());
 
-    if ( CheckCollision(newPosition - _body->GetPosition()) )
-    {
-        newPosition = _body->GetPosition();
-    }
-
-    _body->SetTransform(newPosition, _body->GetAngle());
+    SetTransform(newPosition);
 }
 
 void PhysicsBody::MoveInDirection(Vector2 direction)
@@ -78,65 +76,32 @@ void PhysicsBody::MoveInDirection(Vector2 direction)
     b2Vec2 velocity = b2Vec2(direction.x * _speed * GetFrameTime(),
         direction.y * _speed * GetFrameTime());
 
-    if (!CheckCollision(velocity)) {
-        b2Vec2 newPosition = _body->GetPosition() + velocity;
+    b2Vec2 newPosition = _body->GetPosition() + velocity;
 
-        _body->SetTransform(newPosition, _body->GetAngle());
-    }
+    SetTransform(newPosition);
 }
 
-void PhysicsBody::BeginContact(b2Contact* contact)
+void PhysicsBody::SetTransform(b2Vec2 newPosition)
 {
-    b2Fixture* fixtureA = contact->GetFixtureA();
-    b2Fixture* fixtureB = contact->GetFixtureB();
+    Vector2 newTransformPosition;
+    newTransformPosition.x = newPosition.x;
+    newTransformPosition.y = newPosition.y;
 
-    void* userDataA = fixtureA->GetUserData();
-    void* userDataB = fixtureB->GetUserData();
-
-    if ((userDataA == this && userDataB != this) || (userDataB == this && userDataA != this))
-    {
-        Vector2 characterPosition = _transform->GetPosition();
-        Vector2 characterSize = _transform->GetSize();
-
-        Vector2 wallPosition = static_cast<MyTransform*>
-            (userDataA == this ? userDataB : userDataA)->GetPosition();
-        Vector2 wallSize = static_cast<MyTransform*>
-            (userDataA == this ? userDataB : userDataA)->GetSize();
-
-        if (characterPosition.x - characterSize.x / 2 < wallPosition.x + wallSize.x / 2 &&
-            characterPosition.x + characterSize.x / 2 > wallPosition.x - wallSize.x / 2 &&
-            characterPosition.y - characterSize.y / 2 < wallPosition.y + wallSize.y / 2 &&
-            characterPosition.y + characterSize.y / 2 > wallPosition.y - wallSize.y / 2)
-        {
-            _body->SetLinearVelocity(b2Vec2_zero);
-        }
-    }
+    _transform->SetPosition(newTransformPosition);
+    _body->SetTransform(newPosition, _body->GetAngle());
 }
 
-bool PhysicsBody::CheckCollision(const b2Vec2& velocity)
+void PhysicsBody::SetSpeed(float newSpeed)
 {
-    b2Transform transform;
-    transform.Set(_body->GetPosition(), _body->GetAngle());
-
-    for (b2ContactEdge* edge = _body->GetContactList(); edge; edge = edge->next) {
-        b2Contact* contact = edge->contact;
-
-        if (contact->IsTouching()) {
-            b2WorldManifold worldManifold;
-            contact->GetWorldManifold(&worldManifold);
-
-            for (int i = 0; i < b2_maxManifoldPoints; i++) {
-                if (b2Dot(worldManifold.points[i] - transform.p, velocity) > 0.0f) {
-                    return true;
-                }
-            }
-        }
-    }
-
-    return false;
+    _speed = newSpeed;
 }
 
 MyTransform* PhysicsBody::GetTransform()
 {
     return _transform;
+}
+
+b2Body* PhysicsBody::GetBody()
+{
+    return _body;
 }

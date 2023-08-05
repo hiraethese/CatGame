@@ -9,21 +9,21 @@
 class PhysicsBody
 {
 private:
-	float _speed;
 	b2World* _world;
-	MyTransform* _transform;
 	b2Body* _body;
+	MyTransform* _transform;
+	float _speed;
 
 public:
-	PhysicsBody(float speed,
-		b2World* world,
-		MyTransform* transform);
+	PhysicsBody(b2World* world,
+		MyTransform* transform,
+		float speed);
 
-	void SetSpeed(float newSpeed);
 	void MoveWithKeyboard();
 	void ChaseTarget(Vector2 target);
 	void MoveInDirection(Vector2 direction);
-	void BeginContact(b2Contact* contact);
-	bool CheckCollision(const b2Vec2& velocity);
+	void SetTransform(b2Vec2 newPosition);
+	void SetSpeed(float newSpeed);
 	MyTransform* GetTransform();
+	b2Body* GetBody();
 };

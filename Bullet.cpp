@@ -7,8 +7,8 @@ Bullet::Bullet(float speed,
 	Vector2 direction,
 	Texture2D texture)
 {
-	_transform = new MyTransform(world, position, size);
-	_physicsBody = new PhysicsBody(speed, world, _transform);
+	_transform = new MyTransform(position, size);
+	_physicsBody = new PhysicsBody(world, _transform, speed);
 	_sprite = new Drawer(true, texture, _transform);
 	_direction = direction;
 	_isGarbage = false;

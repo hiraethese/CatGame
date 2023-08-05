@@ -6,8 +6,8 @@ Wall::Wall(b2World* world,
 	Color color,
 	Texture2D texture)
 {
-	_transform = new MyTransform(world, position, size);
-	_physicsBody = new PhysicsBody(0.0f, world, _transform);
+	_transform = new MyTransform(position, size);
+	_physicsBody = new PhysicsBody(world, _transform, 0.0f);
 	_sprite = new Drawer(true, texture, _transform);
 }
 
