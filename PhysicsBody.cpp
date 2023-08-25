@@ -2,6 +2,7 @@
 
 PhysicsBody::PhysicsBody(b2World* world,
     MyTransform* transform,
+    b2BodyType bodyType,
     float speed)
 {
     _world = world;
@@ -12,16 +13,26 @@ PhysicsBody::PhysicsBody(b2World* world,
     Vector2 size = _transform->GetSize();
 
     b2BodyDef bodyDef;
-    bodyDef.type = b2_dynamicBody;
+    bodyDef.type = bodyType;
     bodyDef.position.Set(position.x, position.y);
     _body = _world->CreateBody(&bodyDef);
 
     b2PolygonShape boxShape;
     boxShape.SetAsBox(size.x / 2, size.y / 2);
+
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &boxShape;
-    fixtureDef.density = 1.0f;
-    fixtureDef.friction = 0.3f;
+
+    if (bodyType == b2_dynamicBody)
+    {
+        fixtureDef.density = 1.0f;
+    }
+    else if (bodyType == b2_staticBody)
+    {
+        fixtureDef.density = 0.0f;
+    }
+
+    fixtureDef.friction = 0.2f;
     _body->CreateFixture(&fixtureDef);
 }
 

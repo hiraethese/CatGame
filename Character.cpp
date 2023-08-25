@@ -12,7 +12,7 @@ Character::Character(b2World* world,
 	Texture2D texture)
 {
 	_transform = new MyTransform(position, size);
-	_physicsBody = new PhysicsBody(world, _transform, speed);
+	_physicsBody = new PhysicsBody(world, _transform, b2_dynamicBody, speed);
 	_sprite = new Drawer(true, texture, _transform);
 	_health = new Health(currentHealth, maxHealth, false, false);
 

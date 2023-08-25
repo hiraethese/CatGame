@@ -17,6 +17,7 @@ private:
 public:
 	PhysicsBody(b2World* world,
 		MyTransform* transform,
+		b2BodyType bodyType,
 		float speed);
 
 	void MoveWithKeyboard();

@@ -37,7 +37,7 @@ void Spawner::UpdateBullets()
 
 void Spawner::SpawnSimpleEnemy(Vector2 startPos, Texture2D sprite)
 {
-	Vector2 size = { 100.0f, 100.0f };
+	Vector2 size = { 20.0f, 20.0f };
 	float speed = 200.0f;
 	int currentHealth = 100;
 	int maxHealth = 100;
@@ -50,7 +50,7 @@ void Spawner::SpawnSimpleEnemy(Vector2 startPos, Texture2D sprite)
 
 void Spawner::SpawnBulletWithDirection(Vector2 startPos, Vector2 direction, Texture2D sprite)
 {
-	Vector2 size = { 100.0f, 100.0f };
+	Vector2 size = { 20.0f, 20.0f };
 	float speed = 500.0f;
 
 	Bullet* bullet = new Bullet(speed, _world, startPos, size, direction, sprite);

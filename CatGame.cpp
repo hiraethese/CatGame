@@ -42,9 +42,8 @@ int main(void)
     mainCharacter->GetSkill()->ChangeSkill("canShootWithLMB", true);
     mainCharacter->GetSkill()->ChangeSkill("canRandomlySpawnEnemy", true);
 
-    mainButton = new Wall( &world, { SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 - 25 },
+    mainButton = new Wall( &world, { SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 },
         { 200, 50 }, WHITE, mainCharacterSprite );
-    Rectangle mainButtonRec = mainButton->GetTransform()->GetRectangle();
 
     spawner = new Spawner( &world );
 
@@ -52,14 +51,11 @@ int main(void)
     {
         BeginDrawing();
         ClearBackground(BLACK);
-
         mainButton->UpdateButton();
         mainCharacter->UpdateProtagonist(spawner);
         spawner->UpdateEnemies( mainCharacter->GetTransform()->GetPosition() );
         spawner->UpdateBullets();
-
-        DrawGameStatistics();
-
+        DrawGameStatistics( mainCharacter->GetTransform()->GetPosition() );
         EndDrawing();
     }
 

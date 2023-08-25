@@ -14,7 +14,6 @@ public:
 		Vector2 size);
 
 	void SetPosition(Vector2 newPosition);
-	Rectangle GetRectangle();
 	Vector2 GetPosition();
 	Vector2 GetSize();
 };

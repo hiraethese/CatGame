@@ -11,11 +11,6 @@ void MyTransform::SetPosition(Vector2 newPosition)
 	_position = newPosition;
 }
 
-Rectangle MyTransform::GetRectangle()
-{
-	return { _position.x, _position.y, _size.x, _size.y };
-}
-
 Vector2 MyTransform::GetPosition()
 {
 	return _position;

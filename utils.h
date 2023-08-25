@@ -6,4 +6,5 @@
 #include "globals.h"
 
 std::string GetGameTimeString();
-void DrawGameStatistics();
+void PrintCharacterPosition(Vector2 charPosition);
+void DrawGameStatistics(Vector2 charPosition);
